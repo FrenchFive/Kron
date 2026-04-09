@@ -1,0 +1,2 @@
+# Kron
+Fast Reading App
