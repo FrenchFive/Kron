@@ -24,7 +24,10 @@ export function DocumentPage() {
   if (!doc) {
     return (
       <PageContainer>
-        <p className="font-serif text-[var(--color-text-secondary)]">Document not found.</p>
+        <div className="surface-card empty-state">
+          <h2>document not found</h2>
+          <p>this entry may have been deleted or moved out of your library.</p>
+        </div>
       </PageContainer>
     );
   }
@@ -54,42 +57,49 @@ export function DocumentPage() {
 
   return (
     <PageContainer>
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-6">
+      <header className="mb-7 flex items-start gap-3">
         <IconButton label="Back" onClick={() => navigate(-1)}>
           <ArrowLeft size={20} strokeWidth={1.5} />
         </IconButton>
-        <h1 className="font-serif font-medium text-[18px] text-[var(--color-text)] truncate">
-          {doc.title}
-        </h1>
-      </div>
+        <div className="min-w-0">
+          <span className="page-kicker mb-3">document</span>
+          <h1 className="page-title truncate">{doc.title}</h1>
+        </div>
+      </header>
 
       {/* Metadata */}
-      <section className="mb-6">
-        <span className="inline-block px-2 py-0.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[4px] font-serif font-medium text-[11px] uppercase text-[var(--color-text-secondary)] mb-3">
-          {doc.sourceType}
-        </span>
-        <div className="font-serif text-[13px] text-[var(--color-text-secondary)] space-y-1">
-          <p>{formatNumber(doc.wordCount)} words</p>
-          <p>Added {relativeTime(doc.createdAt)}</p>
+      <section className="surface-card mb-5 p-5">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <span className="info-badge">{doc.sourceType}</span>
+          <span className="info-badge">added {relativeTime(doc.createdAt)}</span>
+        </div>
+        <div className="space-y-1">
+          <p className="meta-text">{formatNumber(doc.wordCount)} words</p>
           {doc.sourceUri && (
-            <p className="truncate">{doc.sourceUri}</p>
+            <p className="tiny-meta truncate">{doc.sourceUri}</p>
           )}
         </div>
       </section>
 
       {/* Progress */}
-      <section className="mb-6">
-        <div className="w-full h-[3px] rounded-[2px] bg-[var(--color-progress-track)] mb-2">
+      <section className="surface-card-flat mb-5 p-5">
+        <div className="mb-3 flex items-end justify-between gap-4">
+          <div>
+            <p className="page-kicker mb-2">progress</p>
+            <p className="font-display text-[32px] font-extrabold leading-none text-[var(--color-accent)]">{progress}%</p>
+          </div>
+          <div className="text-right">
+            <p className="meta-text">{formatNumber(wordsLeft)} words left</p>
+            <p className="tiny-meta">about {timeLeft} min remaining</p>
+          </div>
+        </div>
+        <div className="mb-4 w-full h-[4px] rounded-full bg-[var(--color-progress-track)]">
           <div
-            className="h-full rounded-[2px] bg-[var(--color-accent)]"
+            className="h-full rounded-full bg-[var(--color-accent)]"
             style={{ width: `${progress}%` }}
           />
         </div>
-        <p className="font-serif text-[13px] text-[var(--color-text-secondary)] mb-4">
-          {progress}% complete &middot; {formatNumber(wordsLeft)} words left &middot; ~{timeLeft} min
-        </p>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3">
           <Button onClick={() => navigate(`/player/${doc.id}`)}>
             Continue reading
           </Button>
@@ -101,25 +111,25 @@ export function DocumentPage() {
 
       {/* Chapters */}
       {ws && ws.chapters.length > 1 && (
-        <section className="mb-6">
-          <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-3">chapters</h2>
-          <div className="border border-[var(--color-border)] rounded-[4px] overflow-hidden">
+        <section className="surface-card-flat mb-5 p-5">
+          <h2 className="section-heading mb-4">chapters</h2>
+          <div>
             {ws.chapters.map((chapter, i) => {
               const nextStart = ws!.chapters[i + 1]?.startIndex ?? ws!.totalWords;
               const chapterWords = nextStart - chapter.startIndex;
               return (
                 <button
                   key={i}
-                  className="w-full text-left px-4 py-3 border-b border-[var(--color-border)] last:border-b-0 bg-transparent cursor-pointer hover:bg-[var(--color-surface)]"
+                  className="list-row w-full bg-transparent text-left"
                   onClick={() => {
                     updatePosition(doc.id, chapter.startIndex, doc.wpmLastUsed);
                     navigate(`/player/${doc.id}`);
                   }}
                 >
-                  <span className="font-serif text-[14px] text-[var(--color-text)]">{chapter.title}</span>
-                  <span className="font-serif text-[12px] text-[var(--color-text-secondary)] ml-2">
-                    {formatNumber(chapterWords)} words
-                  </span>
+                  <div className="flex-1">
+                    <span className="block font-serif text-[15px] font-medium text-[var(--color-text)]">{chapter.title}</span>
+                    <span className="tiny-meta">{formatNumber(chapterWords)} words</span>
+                  </div>
                 </button>
               );
             })}
@@ -129,24 +139,25 @@ export function DocumentPage() {
 
       {/* Bookmarks */}
       {bookmarks.length > 0 && (
-        <section className="mb-6">
-          <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-3">bookmarks</h2>
-          <div className="border border-[var(--color-border)] rounded-[4px] overflow-hidden">
+        <section className="surface-card-flat mb-5 p-5">
+          <h2 className="section-heading mb-4">bookmarks</h2>
+          <div>
             {bookmarks.map(bm => (
               <div
                 key={bm.id}
-                className="flex items-center justify-between px-4 py-3 border-b border-[var(--color-border)] last:border-b-0"
+                className="list-row justify-between"
               >
                 <button
-                  className="text-left bg-transparent cursor-pointer border-none"
+                  className="flex-1 bg-transparent text-left cursor-pointer border-none p-0"
                   onClick={() => {
                     updatePosition(doc.id, bm.position, doc.wpmLastUsed);
                     navigate(`/player/${doc.id}`);
                   }}
                 >
-                  <span className="font-serif text-[14px] text-[var(--color-text)]">
+                  <span className="block font-serif text-[15px] font-medium text-[var(--color-text)]">
                     {bm.label || `Bookmark at word ${formatNumber(bm.position)}`}
                   </span>
+                  <span className="tiny-meta">jump back into this spot</span>
                 </button>
                 <Button variant="danger" onClick={() => deleteBookmark(bm.id)}>
                   delete
@@ -158,7 +169,8 @@ export function DocumentPage() {
       )}
 
       {/* Danger zone */}
-      <section className="pt-4 border-t border-[var(--color-border)]">
+      <section className="surface-card-flat p-5">
+        <p className="page-kicker mb-3">danger zone</p>
         <Button variant="danger" onClick={handleDelete}>
           Delete document
         </Button>

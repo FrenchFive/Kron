@@ -75,30 +75,45 @@ export function StatsPage() {
 
   return (
     <PageContainer withTabBar>
-      <h1 className="font-display font-extrabold text-[26px] lowercase text-[var(--color-text)] mb-6">
-        stats
-      </h1>
+      <header className="mb-8">
+        <span className="page-kicker mb-3">reading profile</span>
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <h1 className="page-title">stats</h1>
+            <p className="page-subtitle mt-3 max-w-[28ch]">
+              A quiet snapshot of your pace, streak, and time spent reading.
+            </p>
+          </div>
+          {stats && (
+            <div className="surface-card-flat shrink-0 px-4 py-3 text-right">
+              <p className="tiny-meta">sessions</p>
+              <p className="section-heading mt-1">{formatNumber(allSessions.length)}</p>
+            </div>
+          )}
+        </div>
+      </header>
 
       {!stats ? (
-        <div className="text-center py-16">
-          <h2 className="font-display font-extrabold text-[28px] lowercase text-[var(--color-text)] mb-2">
+        <div className="empty-state surface-card-flat">
+          <h2>
             no stats yet
           </h2>
-          <p className="font-serif text-[var(--color-text-secondary)] text-[15px]">
+          <p>
             start reading to see your progress
           </p>
         </div>
       ) : (
-        <>
+        <div className="space-y-5">
           {/* Today */}
-          <section className="mb-8">
-            <div className="text-center mb-4">
-              <p className="font-display font-extrabold text-[40px] text-[var(--color-accent)]">
+          <section className="surface-card p-6">
+            <div className="mb-5 text-center">
+              <p className="page-kicker mb-3">today</p>
+              <p className="font-display text-[40px] font-extrabold text-[var(--color-accent)]">
                 {formatNumber(stats.today.words)}
               </p>
-              <p className="font-serif text-[14px] text-[var(--color-text-secondary)]">words today</p>
+              <p className="meta-text mt-2">words today</p>
             </div>
-            <div className="flex justify-center gap-8">
+            <div className="grid grid-cols-3 gap-3">
               <MiniStat value={formatDurationLong(stats.today.timeMs)} label="time" />
               <MiniStat value={`${stats.today.avgWpm}`} label="wpm" />
               <MiniStat value={`${stats.today.docs}`} label={stats.today.docs === 1 ? 'doc' : 'docs'} />
@@ -106,16 +121,22 @@ export function StatsPage() {
           </section>
 
           {/* Streak */}
-          <section className="mb-8">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="font-display font-extrabold text-[24px] text-[var(--color-accent)]">{stats.streak}</span>
-              <span className="font-serif text-[15px] text-[var(--color-text)]">day streak</span>
+          <section className="surface-card-flat p-6">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p className="page-kicker mb-2">streak</p>
+                <div className="flex items-end gap-3">
+                  <span className="font-display text-[40px] font-extrabold leading-none text-[var(--color-accent)]">{stats.streak}</span>
+                  <span className="pb-1 font-serif text-[15px] text-[var(--color-text)]">day streak</span>
+                </div>
+              </div>
+              <p className="meta-text max-w-[12ch] text-right">last 7 days</p>
             </div>
             <div className="flex gap-2">
               {stats.last7Days.map((active, i) => (
                 <div
                   key={i}
-                  className={`w-3 h-3 rounded-full ${
+                  className={`h-3 flex-1 rounded-full ${
                     active ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-border)]'
                   }`}
                 />
@@ -124,9 +145,9 @@ export function StatsPage() {
           </section>
 
           {/* All time */}
-          <section>
-            <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-3">all time</h2>
-            <div className="space-y-3">
+          <section className="surface-card-flat p-6">
+            <h2 className="section-heading mb-4">all time</h2>
+            <div className="space-y-1">
               <StatRow label="Total words read" value={formatNumber(stats.allTime.totalWords)} />
               <StatRow label="Total reading time" value={formatDurationLong(stats.allTime.totalTimeMs)} />
               <StatRow label="Average WPM" value={`${stats.allTime.avgWpm}`} />
@@ -135,7 +156,7 @@ export function StatsPage() {
               )}
             </div>
           </section>
-        </>
+        </div>
       )}
     </PageContainer>
   );
@@ -143,18 +164,18 @@ export function StatsPage() {
 
 function MiniStat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="text-center">
-      <p className="font-serif font-bold text-[15px] text-[var(--color-text)]">{value}</p>
-      <p className="font-serif text-[12px] text-[var(--color-text-secondary)]">{label}</p>
+    <div className="rounded-[16px] border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-4 text-center">
+      <p className="font-serif text-[15px] font-medium text-[var(--color-text)]">{value}</p>
+      <p className="tiny-meta mt-1">{label}</p>
     </div>
   );
 }
 
 function StatRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-2 border-b border-[var(--color-border)]">
+    <div className="flex items-center justify-between gap-4 border-b border-[var(--color-border)] py-3 last:border-b-0 last:pb-0">
       <span className="font-serif text-[15px] text-[var(--color-text)]">{label}</span>
-      <span className="font-serif text-[15px] text-[var(--color-text)]">{value}</span>
+      <span className="font-serif text-[15px] font-medium text-[var(--color-text)] text-right">{value}</span>
     </div>
   );
 }

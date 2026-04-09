@@ -34,19 +34,16 @@ export function ProgressBar({ progress, onSeek }: ProgressBarProps) {
   return (
     <div
       ref={barRef}
-      className="relative w-full h-5 flex items-center cursor-pointer touch-none"
+      className="relative flex h-6 w-full cursor-pointer touch-none items-center"
       onPointerDown={handlePointerDown}
     >
-      {/* Track */}
-      <div className="absolute left-0 right-0 h-[3px] rounded-[2px] bg-[var(--color-progress-track)]" />
-      {/* Fill */}
+      <div className="absolute left-0 right-0 h-[4px] rounded-full bg-[var(--color-progress-track)]" />
       <div
-        className="absolute left-0 h-[3px] rounded-[2px] bg-[var(--color-accent)]"
+        className="absolute left-0 h-[4px] rounded-full bg-[var(--color-accent)]"
         style={{ width: `${percentage}%` }}
       />
-      {/* Dot handle */}
       <div
-        className="absolute w-[10px] h-[10px] rounded-full bg-[var(--color-accent)] -translate-x-1/2 -translate-y-1/2 top-1/2"
+        className="absolute top-1/2 h-[12px] w-[12px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[var(--color-bg)] bg-[var(--color-accent)]"
         style={{ left: `${percentage}%` }}
       />
     </div>

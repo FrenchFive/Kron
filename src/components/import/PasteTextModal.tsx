@@ -23,17 +23,22 @@ export function PasteTextModal({ isOpen, onClose }: PasteTextModalProps) {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Paste text">
+      <div className="mb-4">
+        <p className="page-subtitle">
+          Drop in a passage, article draft, or notes and turn it into a clean reading session.
+        </p>
+      </div>
       <textarea
-        className="w-full h-[200px] p-4 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[4px] font-serif text-[15px] text-[var(--color-text)] resize-none outline-none focus:border-[var(--color-accent)]"
+        className="soft-input h-[220px] resize-none"
         placeholder="Paste or type your text here..."
         value={text}
         onChange={(e) => setText(e.target.value)}
         autoFocus
       />
       {error && (
-        <p className="mt-3 font-serif text-[14px] text-[var(--color-text)]">{error}</p>
+        <p className="mt-3 text-[15px] text-[var(--color-text)]">{error}</p>
       )}
-      <div className="mt-4 flex gap-3">
+      <div className="mt-5 flex flex-wrap gap-3">
         <Button onClick={handleSubmit} disabled={!text.trim() || loading}>
           {loading ? 'Importing...' : 'Start reading'}
         </Button>

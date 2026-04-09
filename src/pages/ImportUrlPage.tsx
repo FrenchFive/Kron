@@ -82,70 +82,72 @@ export function ImportUrlPage() {
 
   return (
     <PageContainer>
-      <div className="flex items-center gap-3 mb-6">
+      <div className="mb-7 flex items-center gap-3">
         <IconButton label="Back" onClick={() => navigate(-1)}>
           <ArrowLeft size={20} strokeWidth={1.5} />
         </IconButton>
-        <h1 className="font-display font-extrabold text-[26px] lowercase text-[var(--color-text)]">
-          import from url
-        </h1>
+        <div>
+          <span className="page-kicker mb-2">single article import</span>
+          <h1 className="page-title">import from url</h1>
+        </div>
       </div>
 
-      {/* URL Input */}
-      <div className="relative mb-4">
-        <input
-          type="url"
-          placeholder="paste a link here..."
-          value={url}
-          onChange={(e) => { setUrl(e.target.value); setArticle(null); setError(null); }}
-          className="w-full pr-10 pl-4 py-3 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[4px] font-serif text-[15px] text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] placeholder:text-[var(--color-text-secondary)]"
-        />
-        <button
-          className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-transparent border-none cursor-pointer text-[var(--color-text-secondary)] hover:text-[var(--color-text)]"
-          onClick={handlePaste}
-        >
-          <ClipboardPaste size={18} strokeWidth={1.5} />
-        </button>
-      </div>
+      <section className="surface-card mb-5 p-5">
+        <p className="page-subtitle mb-4 max-w-[30ch]">
+          Paste a clean article link and KRON will extract the readable text for you.
+        </p>
+        <div className="relative mb-4">
+          <input
+            type="url"
+            placeholder="paste a link here..."
+            value={url}
+            onChange={(e) => { setUrl(e.target.value); setArticle(null); setError(null); }}
+            className="soft-input pr-12"
+          />
+          <button
+            className="absolute right-3 top-1/2 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-secondary)]"
+            onClick={handlePaste}
+          >
+            <ClipboardPaste size={18} strokeWidth={1.5} />
+          </button>
+        </div>
+        {!article && !loading && !error && (
+          <Button onClick={handleExtract} disabled={!url.trim()}>
+            Extract article
+          </Button>
+        )}
+      </section>
 
-      {!article && !loading && !error && (
-        <Button onClick={handleExtract} disabled={!url.trim()}>
-          Extract article
-        </Button>
-      )}
-
-      {/* Loading */}
       {loading && (
-        <div className="mt-6 space-y-3">
+        <div className="surface-card-flat mt-5 space-y-3 p-5">
           <Skeleton className="h-6 w-3/4" />
           <Skeleton className="h-4 w-1/2" />
-          <Skeleton className="h-20 w-full" />
-          <p className="font-serif text-[13px] text-[var(--color-text-secondary)]">Extracting article...</p>
+          <Skeleton className="h-24 w-full" />
+          <p className="meta-text">Extracting article...</p>
         </div>
       )}
 
-      {/* Error */}
       {error && (
-        <div className="mt-6 flex items-start gap-3">
-          <AlertCircle size={18} strokeWidth={1.5} className="text-[var(--color-text-secondary)] mt-0.5 shrink-0" />
-          <p className="font-serif text-[14px] text-[var(--color-text)]">{error}</p>
+        <div className="surface-card-flat mt-5 flex items-start gap-3 p-5">
+          <AlertCircle size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-[var(--color-text-secondary)]" />
+          <p className="text-[15px] text-[var(--color-text)]">{error}</p>
         </div>
       )}
 
-      {/* Preview */}
       {article && (
-        <div className="mt-6">
-          <h2 className="font-serif font-bold text-[18px] text-[var(--color-text)] mb-2">
+        <section className="surface-card mt-5 p-5">
+          <span className="info-badge mb-4">preview</span>
+          <h2 className="section-heading mb-2 text-[19px]">
             {article.title}
           </h2>
-          <p className="font-serif text-[13px] text-[var(--color-text-secondary)] mb-4">
+          <p className="meta-text mb-4">
             {formatNumber(article.wordSequence.totalWords)} words &middot;{' '}
             {estimateReadingTimeMinutes(article.wordSequence.totalWords, defaultWpm)} min read
           </p>
-          <p className="font-serif text-[14px] text-[var(--color-text)] leading-relaxed mb-6">
+          <p className="text-[15px] leading-relaxed text-[var(--color-text)] mb-6">
             {article.previewText}
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3">
             <Button onClick={() => handleAddToLibrary(false)}>
               Add to library
             </Button>
@@ -153,7 +155,7 @@ export function ImportUrlPage() {
               Read now
             </Button>
           </div>
-        </div>
+        </section>
       )}
     </PageContainer>
   );

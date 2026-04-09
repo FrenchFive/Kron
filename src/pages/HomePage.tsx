@@ -20,107 +20,121 @@ export function HomePage() {
 
   return (
     <PageContainer withTabBar>
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="font-display font-extrabold text-[32px] uppercase tracking-[0.08em] text-[var(--color-accent)]">
-          KRON
-        </h1>
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div className="space-y-2">
+          <span className="page-kicker">mobile reading ritual</span>
+          <h1 className="page-logo">KRON</h1>
+          <p className="page-subtitle max-w-[28ch]">
+            read with focus, import from anywhere, and keep the interface quiet.
+          </p>
+        </div>
         <IconButton label="Settings" onClick={() => navigate('/settings')}>
           <Settings size={20} strokeWidth={1.5} />
         </IconButton>
       </div>
 
-      {/* Continue Reading */}
       {continueDoc && (
         <div
-          className="border border-[var(--color-border)] border-l-[3px] border-l-[var(--color-accent)] rounded-[4px] p-4 mb-6 cursor-pointer bg-[var(--color-surface)]"
+          className="surface-card mb-8 cursor-pointer p-5"
           onClick={() => navigate(`/player/${continueDoc.id}`)}
         >
-          <h3 className="font-serif font-medium text-[18px] text-[var(--color-text)] mb-2">
-            {continueDoc.title}
-          </h3>
-          <div className="w-full h-[3px] rounded-[2px] bg-[var(--color-progress-track)] mb-1.5">
+          <div className="mb-4 flex items-center justify-between gap-4">
+            <div>
+              <span className="info-badge mb-3">continue reading</span>
+              <h2 className="section-heading text-[19px]">{continueDoc.title}</h2>
+            </div>
+            <span className="font-display text-[26px] font-extrabold text-[var(--color-accent)]">
+              {continueDoc.wordCount > 0 ? Math.round((continueDoc.currentPosition / continueDoc.wordCount) * 100) : 0}%
+            </span>
+          </div>
+          <div className="mb-2 h-[4px] w-full rounded-full bg-[var(--color-progress-track)]">
             <div
-              className="h-full rounded-[2px] bg-[var(--color-accent)]"
+              className="h-full rounded-full bg-[var(--color-accent)]"
               style={{
                 width: `${continueDoc.wordCount > 0 ? Math.round((continueDoc.currentPosition / continueDoc.wordCount) * 100) : 0}%`,
               }}
             />
           </div>
-          <p className="font-serif text-[13px] text-[var(--color-text-secondary)]">
-            {continueDoc.wordCount > 0 ? Math.round((continueDoc.currentPosition / continueDoc.wordCount) * 100) : 0}% &middot;{' '}
-            {estimateReadingTimeMinutes(continueDoc.wordCount - continueDoc.currentPosition, continueDoc.wpmLastUsed || 300)} min left
+          <p className="meta-text">
+            pick up where you left off with about{' '}
+            {estimateReadingTimeMinutes(continueDoc.wordCount - continueDoc.currentPosition, continueDoc.wpmLastUsed || 300)} min left.
           </p>
         </div>
       )}
 
-      {/* Quick Actions */}
       <section className="mb-8">
-        <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-2">
-          import
-        </h2>
-        <div>
+        <div className="mb-4">
+          <h2 className="section-heading mb-1">import</h2>
+          <p className="meta-text">bring in articles, files, feeds, or your own notes.</p>
+        </div>
+        <div className="surface-card p-5">
           <button
-            className="w-full flex items-center gap-4 py-4 border-b border-[var(--color-border)] bg-transparent cursor-pointer text-left"
+            className="list-row w-full bg-transparent text-left"
             onClick={() => setPasteOpen(true)}
           >
             <ClipboardPaste size={20} strokeWidth={1.5} className="text-[var(--color-text-secondary)] shrink-0" />
-            <span className="font-serif text-[15px] text-[var(--color-text)] flex-1">Paste text</span>
+            <div className="flex-1">
+              <span className="block font-serif text-[15px] font-medium text-[var(--color-text)]">Paste text</span>
+              <span className="tiny-meta">drop in notes, copied passages, or drafts</span>
+            </div>
             <ChevronRight size={16} strokeWidth={1.5} className="text-[var(--color-text-secondary)]" />
           </button>
 
           <FileUploadButton />
 
           <button
-            className="w-full flex items-center gap-4 py-4 border-b border-[var(--color-border)] bg-transparent cursor-pointer text-left"
+            className="list-row w-full bg-transparent text-left"
             onClick={() => navigate('/import/url')}
           >
             <Link size={20} strokeWidth={1.5} className="text-[var(--color-text-secondary)] shrink-0" />
-            <span className="font-serif text-[15px] text-[var(--color-text)] flex-1">Import from URL</span>
+            <div className="flex-1">
+              <span className="block font-serif text-[15px] font-medium text-[var(--color-text)]">Import from URL</span>
+              <span className="tiny-meta">extract clean text from a single article link</span>
+            </div>
             <ChevronRight size={16} strokeWidth={1.5} className="text-[var(--color-text-secondary)]" />
           </button>
 
           <button
-            className="w-full flex items-center gap-4 py-4 border-b border-[var(--color-border)] bg-transparent cursor-pointer text-left"
+            className="list-row w-full bg-transparent text-left"
             onClick={() => navigate('/rss')}
           >
             <Rss size={20} strokeWidth={1.5} className="text-[var(--color-text-secondary)] shrink-0" />
-            <span className="font-serif text-[15px] text-[var(--color-text)] flex-1">RSS feeds</span>
+            <div className="flex-1">
+              <span className="block font-serif text-[15px] font-medium text-[var(--color-text)]">RSS feeds</span>
+              <span className="tiny-meta">follow sources and send stories straight to your library</span>
+            </div>
             <ChevronRight size={16} strokeWidth={1.5} className="text-[var(--color-text-secondary)]" />
           </button>
         </div>
       </section>
 
-      {/* Recent */}
       <section>
-        <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-2">
-          recent
-        </h2>
+        <div className="mb-4">
+          <h2 className="section-heading mb-1">recent</h2>
+          <p className="meta-text">your latest reading sessions and imported documents.</p>
+        </div>
         {recentDocs.length === 0 ? (
-          <div className="text-center py-16">
-            <h3 className="font-display font-extrabold text-[28px] lowercase text-[var(--color-text)] mb-2">
-              nothing here yet
-            </h3>
-            <p className="font-serif text-[var(--color-text-secondary)] text-[15px]">
-              import something to get started
-            </p>
+          <div className="surface-card empty-state">
+            <h3>nothing here yet</h3>
+            <p>import something to get started.</p>
           </div>
         ) : (
-          <div className="flex flex-col">
+          <div className="surface-card p-5">
             {recentDocs.map(doc => {
               const progress = doc.wordCount > 0 ? Math.round((doc.currentPosition / doc.wordCount) * 100) : 0;
               return (
                 <button
                   key={doc.id}
-                  className="w-full flex items-center gap-3 py-3 border-b border-[var(--color-border)] bg-transparent cursor-pointer text-left"
+                  className="list-row w-full bg-transparent text-left"
                   onClick={() => navigate(`/player/${doc.id}`)}
                 >
                   <div className="flex-1 min-w-0">
-                    <span className="font-serif text-[15px] text-[var(--color-text)] truncate block">
+                    <span className="block truncate font-serif text-[15px] font-medium text-[var(--color-text)]">
                       {doc.title}
                     </span>
+                    <span className="tiny-meta">{progress}% read</span>
                   </div>
-                  <span className="font-serif text-[12px] text-[var(--color-text-secondary)] shrink-0">
+                  <span className="font-display shrink-0 text-[20px] font-extrabold text-[var(--color-accent)]">
                     {progress}%
                   </span>
                 </button>
