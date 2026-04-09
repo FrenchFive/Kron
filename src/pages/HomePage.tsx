@@ -19,7 +19,7 @@ export function HomePage() {
   const continueDoc = lastDoc && lastDoc.isArchived === 0 ? lastDoc : null;
 
   return (
-    <PageContainer className="pt-6 pb-24">
+    <PageContainer withTabBar>
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-display font-extrabold text-[32px] uppercase tracking-[0.08em] text-[var(--color-accent)]">

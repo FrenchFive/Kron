@@ -34,7 +34,7 @@ export function SettingsPage() {
   };
 
   return (
-    <PageContainer className="pt-6 pb-24">
+    <PageContainer>
       <div className="flex items-center gap-3 mb-6">
         <IconButton label="Back" onClick={() => navigate(-1)}>
           <ArrowLeft size={20} strokeWidth={1.5} />

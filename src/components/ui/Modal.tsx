@@ -42,6 +42,8 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
         className="relative w-full max-w-[480px] h-full bg-[var(--color-bg)] overflow-y-auto animate-slide-in"
         style={{
           animation: 'slideIn 200ms ease-out',
+          paddingTop: 'env(safe-area-inset-top, 0px)',
+          paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         }}
       >
         {title && (

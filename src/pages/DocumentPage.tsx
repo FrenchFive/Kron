@@ -23,7 +23,7 @@ export function DocumentPage() {
 
   if (!doc) {
     return (
-      <PageContainer className="pt-6 pb-24">
+      <PageContainer>
         <p className="font-serif text-[var(--color-text-secondary)]">Document not found.</p>
       </PageContainer>
     );
@@ -53,7 +53,7 @@ export function DocumentPage() {
   };
 
   return (
-    <PageContainer className="pt-6 pb-24">
+    <PageContainer>
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <IconButton label="Back" onClick={() => navigate(-1)}>

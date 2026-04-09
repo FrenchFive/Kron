@@ -42,7 +42,7 @@ export function LibraryPage() {
   ];
 
   return (
-    <PageContainer className="pt-6 pb-24">
+    <PageContainer withTabBar>
       <h1 className="font-display font-extrabold text-[26px] lowercase text-[var(--color-text)] mb-6">
         library
       </h1>
