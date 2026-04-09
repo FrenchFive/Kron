@@ -1,17 +1,19 @@
-import { StrictMode } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { StrictMode, Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App';
-import { HomePage } from './pages/HomePage';
-import { LibraryPage } from './pages/LibraryPage';
-import { StatsPage } from './pages/StatsPage';
-import { PlayerPage } from './pages/PlayerPage';
-import { SettingsPage } from './pages/SettingsPage';
-import { ImportUrlPage } from './pages/ImportUrlPage';
-import { RssFeedsPage } from './pages/RssFeedsPage';
-import { DocumentPage } from './pages/DocumentPage';
 import './index.css';
+
+const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
+const LibraryPage = lazy(() => import('./pages/LibraryPage').then(m => ({ default: m.LibraryPage })));
+const StatsPage = lazy(() => import('./pages/StatsPage').then(m => ({ default: m.StatsPage })));
+const PlayerPage = lazy(() => import('./pages/PlayerPage').then(m => ({ default: m.PlayerPage })));
+const SettingsPage = lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
+const ImportUrlPage = lazy(() => import('./pages/ImportUrlPage').then(m => ({ default: m.ImportUrlPage })));
+const RssFeedsPage = lazy(() => import('./pages/RssFeedsPage').then(m => ({ default: m.RssFeedsPage })));
+const DocumentPage = lazy(() => import('./pages/DocumentPage').then(m => ({ default: m.DocumentPage })));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,22 +33,32 @@ if ('serviceWorker' in navigator && !('Capacitor' in window)) {
   });
 }
 
+function PageFallback() {
+  return (
+    <div className="flex h-screen w-screen items-center justify-center bg-[var(--color-bg)]">
+      <span className="font-serif text-[15px] text-[var(--color-text-secondary)]">Loading...</span>
+    </div>
+  );
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Routes>
-          <Route element={<App />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/library" element={<LibraryPage />} />
-            <Route path="/stats" element={<StatsPage />} />
-            <Route path="/player/:documentId" element={<PlayerPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/import/url" element={<ImportUrlPage />} />
-            <Route path="/rss" element={<RssFeedsPage />} />
-            <Route path="/document/:id" element={<DocumentPage />} />
-          </Route>
-        </Routes>
+        <Suspense fallback={<PageFallback />}>
+          <Routes>
+            <Route element={<App />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/library" element={<LibraryPage />} />
+              <Route path="/stats" element={<StatsPage />} />
+              <Route path="/player/:documentId" element={<PlayerPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/import/url" element={<ImportUrlPage />} />
+              <Route path="/rss" element={<RssFeedsPage />} />
+              <Route path="/document/:id" element={<DocumentPage />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>

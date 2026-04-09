@@ -11,17 +11,21 @@ import { MIN_WPM, MAX_WPM, MIN_FONT_SIZE, MAX_FONT_SIZE } from '@/utils/constant
 export function SettingsPage() {
   const navigate = useNavigate();
   const settings = useSettingsStore();
-  const [storageSize, setStorageSize] = useState<string>('Calculating...');
+  const [storageSize, setStorageSize] = useState<string>(() => {
+    if (!navigator.storage?.estimate) return 'Unknown';
+    return 'Calculating...';
+  });
 
   useEffect(() => {
-    if (navigator.storage?.estimate) {
-      navigator.storage.estimate().then(est => {
+    if (!navigator.storage?.estimate) return;
+    let cancelled = false;
+    navigator.storage.estimate().then(est => {
+      if (!cancelled) {
         const usedMB = ((est.usage ?? 0) / 1024 / 1024).toFixed(1);
         setStorageSize(`Using ${usedMB} MB`);
-      });
-    } else {
-      setStorageSize('Unknown');
-    }
+      }
+    });
+    return () => { cancelled = true; };
   }, []);
 
   const handleClearAll = async () => {
