@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ClipboardPaste, FileUp, Link, Rss, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ClipboardPaste, Link, Rss, ChevronRight } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { IconButton } from '@/components/ui/IconButton';
 import { PasteTextModal } from '@/components/import/PasteTextModal';
