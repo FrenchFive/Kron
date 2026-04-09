@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Bookmark, BookmarkCheck } from 'lucide-react';
 import { usePlayer } from '@/hooks/usePlayer';
+import { useOrientation } from '@/hooks/useOrientation';
 import { useSettingsStore } from '@/store/settingsStore';
 import { WordDisplay } from '@/components/player/WordDisplay';
 import { PlayerControls } from '@/components/player/PlayerControls';
@@ -16,13 +17,16 @@ import type { WordSequence } from '@/engine/wordSequence';
 import { formatDuration, estimateReadingTimeMs } from '@/utils/time';
 import { formatNumber } from '@/utils/time';
 import { CONTROLS_HIDE_DELAY_MS } from '@/utils/constants';
-import { hideStatusBar, showStatusBar, onBackButton } from '@/utils/native';
+import { hideStatusBar, showStatusBar, onBackButton, unlockOrientation, lockPortrait } from '@/utils/native';
 
 export function PlayerPage() {
   const { documentId } = useParams<{ documentId: string }>();
   const navigate = useNavigate();
   const player = usePlayer();
   const defaultWpm = useSettingsStore((s) => s.defaultWpm);
+
+  const orientation = useOrientation();
+  const isLandscape = orientation === 'landscape';
 
   const [showControls, setShowControls] = useState(true);
   const [showContext, setShowContext] = useState(false);
@@ -38,6 +42,7 @@ export function PlayerPage() {
     if (!documentId) return;
 
     hideStatusBar();
+    unlockOrientation();
 
     async function load() {
       const doc = await getDocument(documentId!);
@@ -63,6 +68,7 @@ export function PlayerPage() {
 
     return () => {
       showStatusBar();
+      lockPortrait();
       removeBackListener();
       player.savePosition();
       player.unload();
@@ -211,8 +217,14 @@ export function PlayerPage() {
     >
       {/* Word display area */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
-        <div className="w-full max-w-[720px]" style={{ height: '72px' }}>
-          <WordDisplay word={player.currentWord} />
+        <div
+          className="w-full"
+          style={{
+            maxWidth: isLandscape ? '960px' : '720px',
+            height: isLandscape ? '80px' : '72px',
+          }}
+        >
+          <WordDisplay word={player.currentWord} landscape={isLandscape} />
         </div>
         {hasMultipleChapters && chapter && (
           <p className="tiny-meta mt-5">
@@ -234,14 +246,18 @@ export function PlayerPage() {
         style={{
           opacity: showControls ? 1 : 0,
           pointerEvents: showControls ? 'auto' : 'none',
-          paddingTop: 'calc(12px + env(safe-area-inset-top, 0px))',
+          paddingTop: isLandscape
+            ? 'calc(8px + env(safe-area-inset-top, 0px))'
+            : 'calc(12px + env(safe-area-inset-top, 0px))',
+          paddingLeft: isLandscape ? 'env(safe-area-inset-left, 0px)' : undefined,
+          paddingRight: isLandscape ? 'env(safe-area-inset-right, 0px)' : undefined,
           backgroundColor: 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
         }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}
         onTouchEnd={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto flex max-w-[720px] items-center justify-between px-4 py-2">
+        <div className="mx-auto flex items-center justify-between px-4 py-2" style={{ maxWidth: isLandscape ? '960px' : '720px' }}>
           <IconButton label="Back" onClick={handleBack}>
             <ArrowLeft size={20} strokeWidth={1.5} />
           </IconButton>
@@ -264,14 +280,18 @@ export function PlayerPage() {
         style={{
           opacity: showControls ? 1 : 0,
           pointerEvents: showControls ? 'auto' : 'none',
-          paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+          paddingBottom: isLandscape
+            ? 'calc(8px + env(safe-area-inset-bottom, 0px))'
+            : 'calc(16px + env(safe-area-inset-bottom, 0px))',
+          paddingLeft: isLandscape ? 'env(safe-area-inset-left, 0px)' : undefined,
+          paddingRight: isLandscape ? 'env(safe-area-inset-right, 0px)' : undefined,
           backgroundColor: 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
         }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => e.stopPropagation()}
         onTouchEnd={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto max-w-[720px] px-4 pb-2">
+        <div className="mx-auto px-4 pb-2" style={{ maxWidth: isLandscape ? '960px' : '720px' }}>
           {/* Position and time */}
           <div className="mb-2 flex justify-between font-serif text-[13px] text-[var(--color-text-secondary)]">
             <span>word {formatNumber(player.currentIndex + 1)} / {formatNumber(player.totalWords)}</span>
@@ -281,20 +301,37 @@ export function PlayerPage() {
           {/* Progress bar */}
           <ProgressBar progress={player.progress} onSeek={handleSeek} />
 
-          {/* Player controls */}
-          <div className="mt-4">
-            <PlayerControls
-              isPlaying={player.isPlaying}
-              onTogglePlay={() => player.togglePlayPause()}
-              onBack20={() => player.skipWords(-20)}
-              onForward20={() => player.skipWords(20)}
-            />
-          </div>
+          {/* In landscape, combine controls + speed in one row */}
+          {isLandscape ? (
+            <div className="mt-3 flex items-center justify-center gap-6">
+              <SpeedIndicator wpm={player.wpm} onAdjust={(d) => player.adjustWpm(d)} />
+              <PlayerControls
+                isPlaying={player.isPlaying}
+                onTogglePlay={() => player.togglePlayPause()}
+                onBack20={() => player.skipWords(-20)}
+                onForward20={() => player.skipWords(20)}
+              />
+              {/* Invisible spacer to keep play button centered */}
+              <div style={{ width: '140px' }} />
+            </div>
+          ) : (
+            <>
+              {/* Player controls */}
+              <div className="mt-4">
+                <PlayerControls
+                  isPlaying={player.isPlaying}
+                  onTogglePlay={() => player.togglePlayPause()}
+                  onBack20={() => player.skipWords(-20)}
+                  onForward20={() => player.skipWords(20)}
+                />
+              </div>
 
-          {/* Speed control */}
-          <div className="mt-3 flex justify-center">
-            <SpeedIndicator wpm={player.wpm} onAdjust={(d) => player.adjustWpm(d)} />
-          </div>
+              {/* Speed control */}
+              <div className="mt-3 flex justify-center">
+                <SpeedIndicator wpm={player.wpm} onAdjust={(d) => player.adjustWpm(d)} />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

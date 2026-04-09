@@ -2,13 +2,9 @@ export function calculateOrpIndex(word: string): number {
   // Count only letters to determine word length
   const letterCount = word.replace(/[^a-zA-Z]/g, '').length;
 
-  let orpPosition: number;
-  if (letterCount <= 1) orpPosition = 0;
-  else if (letterCount <= 3) orpPosition = 0;
-  else if (letterCount <= 5) orpPosition = 1;
-  else if (letterCount <= 9) orpPosition = 2;
-  else if (letterCount <= 13) orpPosition = 3;
-  else orpPosition = 4;
+  // One-third mark: the eye's natural landing spot sits roughly 1/3
+  // into the word, giving consistent focal alignment across lengths.
+  const orpPosition = letterCount <= 1 ? 0 : Math.floor(letterCount / 3);
 
   // Adjust for leading non-letter characters (quotes, parentheses, etc.)
   let leadingNonLetters = 0;

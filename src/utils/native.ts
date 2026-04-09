@@ -46,6 +46,26 @@ export function hideKeyboard() {
   if (isNative) Keyboard.hide();
 }
 
+// ── Screen Orientation ──────────────────────────────────
+
+/** Unlock rotation so the user can switch to landscape */
+export function unlockOrientation() {
+  try {
+    screen.orientation?.unlock?.();
+  } catch {
+    // Not supported or not allowed — fail silently
+  }
+}
+
+/** Lock back to portrait (e.g. when leaving the player) */
+export function lockPortrait() {
+  try {
+    screen.orientation?.lock?.('portrait').catch(() => {});
+  } catch {
+    // Not supported or not allowed — fail silently
+  }
+}
+
 // ── App / Back Button ────────────────────────────────────
 
 export function onBackButton(handler: () => void): () => void {
