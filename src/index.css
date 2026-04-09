@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+/* ============================================
+   DESIGN SYSTEM — ReadFast
+   Black, white, red (#E03E3E). Nothing else.
+   ============================================ */
+
+/* --- Font Faces --- */
+
+@font-face {
+  font-family: 'Sora';
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/sora-800.woff2') format('woff2');
+}
+
+/* Tiempos Text — user provides these files in public/fonts/ */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Tiempos Text';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Tiempos Text';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-700.woff2') format('woff2');
+}
+
+/* Lora fallback — loaded from self-hosted files */
+@font-face {
+  font-family: 'Lora';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/lora-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/lora-500.woff2') format('woff2');
+}
+
+/* --- Tailwind v4 Theme --- */
+
+@theme {
+  --font-display: 'Sora', sans-serif;
+  --font-serif: 'Tiempos Text', 'Lora', Georgia, serif;
+
+  --color-bg: #FFFFFF;
+  --color-surface: #F7F7F5;
+  --color-text: #1A1A1A;
+  --color-text-secondary: #787774;
+  --color-border: #E3E3E0;
+  --color-accent: #E03E3E;
+  --color-accent-hover: #C53030;
+  --color-accent-subtle: #E03E3E12;
+  --color-progress-track: #E3E3E0;
+  --color-danger: #E03E3E;
+
+  --max-width-content: 680px;
+  --radius-card: 4px;
+}
+
+/* --- CSS Custom Properties (for direct use + dark mode) --- */
+
+:root {
+  --color-bg: #FFFFFF;
+  --color-surface: #F7F7F5;
+  --color-text: #1A1A1A;
+  --color-text-secondary: #787774;
+  --color-border: #E3E3E0;
+  --color-accent: #E03E3E;
+  --color-accent-hover: #C53030;
+  --color-accent-subtle: rgba(224, 62, 62, 0.07);
+  --color-progress-track: #E3E3E0;
+  --color-danger: #E03E3E;
+}
+
+.dark {
+  --color-bg: #111111;
+  --color-surface: #191919;
+  --color-text: #EBEBEB;
+  --color-text-secondary: #9B9B9B;
+  --color-border: #2F2F2F;
+  --color-accent: #E03E3E;
+  --color-accent-hover: #C53030;
+  --color-accent-subtle: rgba(224, 62, 62, 0.09);
+  --color-progress-track: #2F2F2F;
+  --color-danger: #E03E3E;
+}
+
+/* --- Base Styles --- */
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: 'Tiempos Text', 'Lora', Georgia, serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* --- Safe Area Utilities --- */
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* --- Range Slider Styling --- */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: var(--color-border);
+  border-radius: 2px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-text);
+  border: 2px solid var(--color-bg);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-text);
+  border: 2px solid var(--color-bg);
+  cursor: pointer;
+}
+
+/* --- Skeleton Loading Animation --- */
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.skeleton {
+  animation: skeleton-pulse 1s ease-in-out infinite;
+  background-color: var(--color-border);
+  border-radius: var(--radius-card);
+}
+
+/* --- Scrollbar Styling --- */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+/* --- Selection Color --- */
+
+::selection {
+  background-color: var(--color-accent-subtle);
+  color: var(--color-text);
+}
