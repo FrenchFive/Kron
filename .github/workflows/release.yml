@@ -82,7 +82,7 @@ jobs:
 
       # ── Update version in package.json ──
       - name: Update package.json version
-        run: npm version "${{ steps.version.outputs.version }}" --no-git-tag-version
+        run: npm pkg set version="${{ steps.version.outputs.version }}"
 
       # ── Set up build tools ──
       - name: Set up Java 21
