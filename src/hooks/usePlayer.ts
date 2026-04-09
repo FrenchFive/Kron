@@ -9,7 +9,7 @@ import { hapticLight, hapticMedium, hapticTick } from '@/utils/native';
 
 export function usePlayer() {
   const store = usePlayerStore();
-  const settings = useSettingsStore();
+  const setLastDocumentId = useSettingsStore((s) => s.setLastDocumentId);
   const rafRef = useRef<number>(0);
   const lastTickRef = useRef<number>(0);
   const accumulatorRef = useRef<number>(0);
@@ -156,9 +156,9 @@ export function usePlayer() {
   // Update last document ID in settings when a doc is loaded
   useEffect(() => {
     if (store.documentId) {
-      settings.setLastDocumentId(store.documentId);
+      setLastDocumentId(store.documentId);
     }
-  }, [store.documentId, settings]);
+  }, [store.documentId, setLastDocumentId]);
 
   // Wrap actions with haptic feedback
   const togglePlayPause = useCallback(() => {
