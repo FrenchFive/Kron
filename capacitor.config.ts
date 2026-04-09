@@ -4,6 +4,9 @@ const config: CapacitorConfig = {
   appId: 'app.kron',
   appName: 'Kron',
   webDir: 'dist',
+  server: {
+    androidScheme: 'https',
+  },
   plugins: {
     SplashScreen: {
       launchAutoHide: true,
@@ -12,6 +15,9 @@ const config: CapacitorConfig = {
     },
     StatusBar: {
       style: 'dark',
+    },
+    CapacitorHttp: {
+      enabled: true,
     },
   },
 };
