@@ -2,9 +2,9 @@ import { NavLink } from 'react-router-dom';
 import { Home, BookOpen, BarChart3 } from 'lucide-react';
 
 const tabs = [
-  { to: '/', icon: Home, label: 'home' },
-  { to: '/library', icon: BookOpen, label: 'library' },
-  { to: '/stats', icon: BarChart3, label: 'stats' },
+  { to: '/', icon: Home, label: 'Home' },
+  { to: '/library', icon: BookOpen, label: 'Library' },
+  { to: '/stats', icon: BarChart3, label: 'Stats' },
 ] as const;
 
 export function BottomTabBar() {
@@ -35,7 +35,7 @@ export function BottomTabBar() {
                   }`}
                 />
                 <Icon size={19} strokeWidth={1.6} className={isActive ? 'text-[var(--color-text)]' : undefined} />
-                <span className={`font-serif text-[11px] ${isActive ? 'font-medium text-[var(--color-text)]' : 'font-normal'}`}>
+                <span className={`font-serif text-[11px] ${isActive ? 'font-semibold text-[var(--color-text)]' : 'font-normal'}`}>
                   {label}
                 </span>
               </>

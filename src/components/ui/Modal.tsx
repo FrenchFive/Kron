@@ -55,7 +55,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             style={{ paddingTop: headerPaddingTop }}
           >
             <div className="flex items-center justify-between px-5 py-4">
-              <h2 className="font-display text-[24px] font-extrabold lowercase tracking-[-0.04em] text-[var(--color-text)]">
+              <h2 className="font-display text-[24px] font-bold tracking-[-0.04em] text-[var(--color-text)]">
                 {title}
               </h2>
               <IconButton label="Close" onClick={onClose}>

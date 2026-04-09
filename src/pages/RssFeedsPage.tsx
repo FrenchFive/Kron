@@ -102,8 +102,8 @@ export function RssFeedsPage() {
           <ArrowLeft size={20} strokeWidth={1.5} />
         </IconButton>
         <div className="pt-1">
-          <span className="page-kicker mb-3">feeds</span>
-          <h1 className="page-title">rss feeds</h1>
+          <span className="page-kicker mb-3">Feeds</span>
+          <h1 className="page-title">RSS Feeds</h1>
           <p className="page-subtitle mt-3 max-w-[30ch]">
             Track sources you trust and send articles into your reading queue.
           </p>
@@ -112,8 +112,8 @@ export function RssFeedsPage() {
 
       <section className="surface-card p-5 mb-5">
         <div className="mb-4">
-          <h2 className="section-heading mb-1">add a feed</h2>
-          <p className="meta-text">Paste a feed URL and KRON will keep it ready to import.</p>
+          <h2 className="section-heading mb-1">Add A Feed</h2>
+          <p className="meta-text">Paste a feed URL and Kron will keep it ready to import.</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           <input
@@ -137,8 +137,8 @@ export function RssFeedsPage() {
 
       {feeds.length === 0 ? (
         <div className="surface-card empty-state">
-          <h2>no feeds yet</h2>
-          <p>add an RSS feed URL to get started.</p>
+          <h2>No Feeds Yet</h2>
+          <p>Add an RSS feed URL to get started.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
@@ -146,7 +146,7 @@ export function RssFeedsPage() {
             <div key={feed.id} className="surface-card-flat overflow-hidden">
               <div className="flex cursor-pointer items-center justify-between gap-4 p-5" onClick={() => handleToggleFeed(feed.id, feed.url)}>
                 <div className="min-w-0">
-                  <h3 className="truncate font-serif text-[17px] font-medium text-[var(--color-text)]">{feed.title}</h3>
+                  <h3 className="truncate font-serif text-[17px] font-semibold text-[var(--color-text)]">{feed.title}</h3>
                   <p className="meta-text mt-1">
                     {feedArticles[feed.id]?.length ?? '?'} articles
                     {feed.lastFetchedAt && ` · last fetched ${relativeTime(feed.lastFetchedAt)}`}
@@ -178,7 +178,7 @@ export function RssFeedsPage() {
                         disabled={importingArticle === article.link}
                       >
                         <div className="flex-1 min-w-0">
-                          <span className="block truncate font-serif text-[15px] font-medium text-[var(--color-text)]">
+                          <span className="block truncate font-serif text-[15px] font-semibold text-[var(--color-text)]">
                             {importingArticle === article.link ? 'Importing...' : article.title}
                           </span>
                           {article.pubDate && (

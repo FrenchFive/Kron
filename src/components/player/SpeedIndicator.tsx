@@ -13,7 +13,7 @@ export function SpeedIndicator({ wpm, onAdjust }: SpeedIndicatorProps) {
         <Minus size={18} strokeWidth={1.5} />
       </IconButton>
       <div className="min-w-[72px] text-center">
-        <p className="font-serif text-[17px] font-medium text-[var(--color-text)]">{wpm}</p>
+        <p className="font-serif text-[17px] font-semibold text-[var(--color-text)]">{wpm}</p>
         <p className="tiny-meta">wpm</p>
       </div>
       <IconButton label="Increase speed" onClick={() => onAdjust(10)}>

@@ -43,8 +43,8 @@ export function SettingsPage() {
           <ArrowLeft size={20} strokeWidth={1.5} />
         </IconButton>
         <div className="pt-1">
-          <span className="page-kicker mb-3">preferences</span>
-          <h1 className="page-title">settings</h1>
+          <span className="page-kicker mb-3">Preferences</span>
+          <h1 className="page-title">Settings</h1>
           <p className="page-subtitle mt-3 max-w-[30ch]">
             Tune reading speed, typography, and the pacing of each session.
           </p>
@@ -52,7 +52,7 @@ export function SettingsPage() {
       </div>
 
       <section className="surface-card p-5 mb-5">
-        <h2 className="section-heading mb-4">reading</h2>
+        <h2 className="section-heading mb-4">Reading</h2>
 
         <SettingRow label="Default WPM" value={`${settings.defaultWpm}`}>
           <input
@@ -76,10 +76,10 @@ export function SettingsPage() {
           />
           <div className="mt-3 flex justify-center rounded-[16px] border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-4">
             <span
-              className="font-serif font-bold text-[var(--color-text)]"
+              className="font-display font-bold text-[var(--color-text)]"
               style={{ fontSize: `${settings.fontSize}px` }}
             >
-              kr<span className="text-[var(--color-accent)]">o</span>n
+              Kr<span className="text-[var(--color-accent)]">o</span>n
             </span>
           </div>
         </SettingRow>
@@ -119,7 +119,7 @@ export function SettingsPage() {
       </section>
 
       <section className="surface-card-flat p-5 mb-5">
-        <h2 className="section-heading mb-4">appearance</h2>
+        <h2 className="section-heading mb-4">Appearance</h2>
 
         <div className="border-b border-[var(--color-border)] py-4">
           <div className="mb-3 flex items-center justify-between gap-3">
@@ -145,7 +145,7 @@ export function SettingsPage() {
       </section>
 
       <section className="surface-card-flat p-5 mb-5">
-        <h2 className="section-heading mb-4">data</h2>
+        <h2 className="section-heading mb-4">Data</h2>
         <div className="flex items-center justify-between gap-4 border-b border-[var(--color-border)] py-4">
           <span className="font-serif text-[15px] text-[var(--color-text)]">Storage used</span>
           <span className="meta-text text-right">{storageSize}</span>
@@ -158,7 +158,7 @@ export function SettingsPage() {
       </section>
 
       <section className="surface-card-flat p-5">
-        <h2 className="section-heading mb-4">about</h2>
+        <h2 className="section-heading mb-4">About</h2>
         <div className="space-y-1">
           <p className="font-serif text-[15px] text-[var(--color-text)]">Kron v1.0.0</p>
           <p className="meta-text">Made by Five</p>

@@ -2,9 +2,9 @@ import { NavLink } from 'react-router-dom';
 import { Home, BookOpen, BarChart3, Settings } from 'lucide-react';
 
 const navItems = [
-  { to: '/', icon: Home, label: 'home' },
-  { to: '/library', icon: BookOpen, label: 'library' },
-  { to: '/stats', icon: BarChart3, label: 'stats' },
+  { to: '/', icon: Home, label: 'Home' },
+  { to: '/library', icon: BookOpen, label: 'Library' },
+  { to: '/stats', icon: BarChart3, label: 'Stats' },
 ] as const;
 
 export function DesktopSidebar() {
@@ -12,8 +12,8 @@ export function DesktopSidebar() {
     <aside className="hidden lg:flex flex-col w-[220px] h-screen fixed left-0 top-0 border-r border-[var(--color-border)] bg-[var(--color-bg)] py-8 px-4">
       {/* Logo */}
       <div className="px-3 mb-10">
-        <span className="font-display font-extrabold text-[24px] uppercase tracking-[0.08em] text-[var(--color-accent)]">
-          KRON
+        <span className="font-display font-bold text-[24px] tracking-[-0.02em] text-[var(--color-text)]">
+          Kr<span className="text-[var(--color-accent)]">o</span>n
         </span>
       </div>
 
@@ -27,7 +27,7 @@ export function DesktopSidebar() {
             className={({ isActive }) =>
               `flex items-center gap-3 px-4 py-3 rounded-[18px] no-underline font-serif text-[15px] transition-colors duration-150 ${
                 isActive
-                  ? 'bg-[var(--color-surface)] font-medium text-[var(--color-text)]'
+                  ? 'bg-[var(--color-surface)] font-semibold text-[var(--color-text)]'
                   : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'
               }`
             }
@@ -45,13 +45,13 @@ export function DesktopSidebar() {
           className={({ isActive }) =>
             `flex items-center gap-3 px-4 py-3 rounded-[18px] no-underline font-serif text-[15px] transition-colors duration-150 ${
               isActive
-                ? 'bg-[var(--color-surface)] font-medium text-[var(--color-text)]'
+                ? 'bg-[var(--color-surface)] font-semibold text-[var(--color-text)]'
                 : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'
             }`
           }
         >
           <Settings size={20} strokeWidth={1.5} />
-          <span>settings</span>
+          <span>Settings</span>
         </NavLink>
       </div>
     </aside>
