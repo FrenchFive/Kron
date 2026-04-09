@@ -32,6 +32,7 @@ interface PlayerState {
   rewindParagraph: () => void;
   skipSentence: () => void;
   skipParagraph: () => void;
+  skipWords: (count: number) => void;
   loadDocument: (documentId: string, wordSequence: WordSequence, startPosition: number, wpm: number) => void;
   advanceWord: () => void;
   unload: () => void;
@@ -87,6 +88,12 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     const { positionMap, currentIndex, totalWords } = get();
     if (!positionMap) return;
     set({ currentIndex: skipParagraph(positionMap, currentIndex, totalWords) });
+  },
+
+  skipWords: (count) => {
+    const { currentIndex, totalWords } = get();
+    const next = Math.max(0, Math.min(currentIndex + count, totalWords - 1));
+    set({ currentIndex: next });
   },
 
   loadDocument: (documentId, wordSequence, startPosition, wpm) => {

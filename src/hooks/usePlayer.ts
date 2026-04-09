@@ -186,6 +186,11 @@ export function usePlayer() {
     store.skipParagraph();
   }, [store]);
 
+  const skipWords = useCallback((count: number) => {
+    hapticMedium();
+    store.skipWords(count);
+  }, [store]);
+
   const adjustWpm = useCallback((delta: number) => {
     hapticTick();
     store.adjustWpm(delta);
@@ -198,6 +203,7 @@ export function usePlayer() {
     rewindParagraph,
     skipSentence,
     skipParagraph,
+    skipWords,
     adjustWpm,
     currentWord: store.wordArray[store.currentIndex] ?? null,
     progress: store.totalWords > 0 ? store.currentIndex / (store.totalWords - 1) : 0,
