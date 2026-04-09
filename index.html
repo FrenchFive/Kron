@@ -8,12 +8,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="manifest" href="/manifest.json" />
-    <title>ReadFast</title>
+    <title>Kron</title>
     <script>
       // Initialize theme before body renders to prevent flash
       (function() {
         try {
-          var raw = localStorage.getItem('readfast-theme');
+          var raw = localStorage.getItem('kron-theme');
           var theme = raw ? JSON.parse(raw) : 'system';
           if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');

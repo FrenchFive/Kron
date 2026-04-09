@@ -16,6 +16,7 @@ import type { WordSequence } from '@/engine/wordSequence';
 import { formatDuration, estimateReadingTimeMs } from '@/utils/time';
 import { formatNumber } from '@/utils/time';
 import { CONTROLS_HIDE_DELAY_MS } from '@/utils/constants';
+import { hideStatusBar, showStatusBar, onBackButton } from '@/utils/native';
 
 export function PlayerPage() {
   const { documentId } = useParams<{ documentId: string }>();
@@ -32,9 +33,11 @@ export function PlayerPage() {
   const longPressRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
 
-  // Load document
+  // Load document + native lifecycle
   useEffect(() => {
     if (!documentId) return;
+
+    hideStatusBar();
 
     async function load() {
       const doc = await getDocument(documentId!);
@@ -51,7 +54,16 @@ export function PlayerPage() {
 
     load();
 
+    // Android back button: pause, save, go back
+    const removeBackListener = onBackButton(() => {
+      player.pause();
+      player.savePosition();
+      navigate(-1);
+    });
+
     return () => {
+      showStatusBar();
+      removeBackListener();
       player.savePosition();
       player.unload();
     };

@@ -12,6 +12,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { estimateReadingTimeMinutes, formatNumber } from '@/utils/time';
 import type { WordSequence } from '@/engine/wordSequence';
 import { getAllWords } from '@/engine/wordSequence';
+import { hideKeyboard } from '@/utils/native';
 
 interface ExtractedArticle {
   title: string;
@@ -29,6 +30,7 @@ export function ImportUrlPage() {
 
   const handleExtract = async () => {
     if (!url.trim()) return;
+    hideKeyboard();
     setLoading(true);
     setError(null);
     setArticle(null);

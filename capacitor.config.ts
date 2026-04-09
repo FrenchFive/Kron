@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.readfast',
-  appName: 'ReadFast',
+  appId: 'app.kron',
+  appName: 'Kron',
   webDir: 'dist',
   plugins: {
     SplashScreen: {

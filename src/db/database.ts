@@ -43,14 +43,14 @@ export interface RssFeedRecord {
   refreshIntervalMin: number;
 }
 
-class ReadFastDB extends Dexie {
+class KronDB extends Dexie {
   documents!: Table<DocumentRecord>;
   bookmarks!: Table<BookmarkRecord>;
   sessions!: Table<ReadingSessionRecord>;
   rssFeeds!: Table<RssFeedRecord>;
 
   constructor() {
-    super('readfast');
+    super('kron');
     this.version(1).stores({
       documents: 'id, sourceType, createdAt, updatedAt, isArchived',
       bookmarks: 'id, documentId',
@@ -60,4 +60,4 @@ class ReadFastDB extends Dexie {
   }
 }
 
-export const db = new ReadFastDB();
+export const db = new KronDB();

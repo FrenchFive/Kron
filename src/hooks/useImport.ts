@@ -52,7 +52,7 @@ export function useImport() {
       const sourceType = detectFileType(file.name);
       if (!sourceType) {
         const ext = file.name.split('.').pop() ?? '';
-        setState({ loading: false, error: `ReadFast can't read .${ext} files. Try TXT, EPUB, PDF, DOCX, HTML, or MD.` });
+        setState({ loading: false, error: `Kron can't read .${ext} files. Try TXT, EPUB, PDF, DOCX, HTML, or MD.` });
         return null;
       }
 

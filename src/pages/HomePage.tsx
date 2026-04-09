@@ -23,7 +23,7 @@ export function HomePage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <h1 className="font-display font-extrabold text-[32px] uppercase tracking-[0.08em] text-[var(--color-accent)]">
-          READFAST
+          KRON
         </h1>
         <IconButton label="Settings" onClick={() => navigate('/settings')}>
           <Settings size={20} strokeWidth={1.5} />

@@ -42,16 +42,16 @@ function setStored(key: string, value: unknown): void {
 }
 
 export const useSettingsStore = create<SettingsState>((set) => ({
-  theme: getStored<Theme>('readfast-theme', 'system'),
-  defaultWpm: getStored('readfast-default-wpm', DEFAULT_WPM),
-  fontSize: getStored('readfast-font-size', DEFAULT_FONT_SIZE),
-  punctuationMultiplier: getStored('readfast-punctuation-multiplier', DEFAULT_PUNCTUATION_MULTIPLIER),
-  commaMultiplier: getStored('readfast-comma-multiplier', DEFAULT_COMMA_MULTIPLIER),
-  paragraphMultiplier: getStored('readfast-paragraph-multiplier', DEFAULT_PARAGRAPH_MULTIPLIER),
-  lastDocumentId: getStored('readfast-last-document-id', null),
+  theme: getStored<Theme>('kron-theme', 'system'),
+  defaultWpm: getStored('kron-default-wpm', DEFAULT_WPM),
+  fontSize: getStored('kron-font-size', DEFAULT_FONT_SIZE),
+  punctuationMultiplier: getStored('kron-punctuation-multiplier', DEFAULT_PUNCTUATION_MULTIPLIER),
+  commaMultiplier: getStored('kron-comma-multiplier', DEFAULT_COMMA_MULTIPLIER),
+  paragraphMultiplier: getStored('kron-paragraph-multiplier', DEFAULT_PARAGRAPH_MULTIPLIER),
+  lastDocumentId: getStored('kron-last-document-id', null),
 
   setTheme: (theme) => {
-    setStored('readfast-theme', theme);
+    setStored('kron-theme', theme);
     // Apply theme class
     const html = document.documentElement;
     html.classList.remove('dark');
@@ -62,32 +62,32 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   },
 
   setDefaultWpm: (defaultWpm) => {
-    setStored('readfast-default-wpm', defaultWpm);
+    setStored('kron-default-wpm', defaultWpm);
     set({ defaultWpm });
   },
 
   setFontSize: (fontSize) => {
-    setStored('readfast-font-size', fontSize);
+    setStored('kron-font-size', fontSize);
     set({ fontSize });
   },
 
   setPunctuationMultiplier: (punctuationMultiplier) => {
-    setStored('readfast-punctuation-multiplier', punctuationMultiplier);
+    setStored('kron-punctuation-multiplier', punctuationMultiplier);
     set({ punctuationMultiplier });
   },
 
   setCommaMultiplier: (commaMultiplier) => {
-    setStored('readfast-comma-multiplier', commaMultiplier);
+    setStored('kron-comma-multiplier', commaMultiplier);
     set({ commaMultiplier });
   },
 
   setParagraphMultiplier: (paragraphMultiplier) => {
-    setStored('readfast-paragraph-multiplier', paragraphMultiplier);
+    setStored('kron-paragraph-multiplier', paragraphMultiplier);
     set({ paragraphMultiplier });
   },
 
   setLastDocumentId: (lastDocumentId) => {
-    setStored('readfast-last-document-id', lastDocumentId);
+    setStored('kron-last-document-id', lastDocumentId);
     set({ lastDocumentId });
   },
 }));

@@ -74,7 +74,7 @@ export function SettingsPage() {
               className="font-serif font-bold text-[var(--color-text)]"
               style={{ fontSize: `${settings.fontSize}px` }}
             >
-              re<span className="text-[var(--color-accent)]">a</span>dfast
+              kr<span className="text-[var(--color-accent)]">o</span>n
             </span>
           </div>
         </SettingRow>
@@ -162,7 +162,7 @@ export function SettingsPage() {
       {/* About Section */}
       <section>
         <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-4">about</h2>
-        <p className="font-serif text-[14px] text-[var(--color-text)]">ReadFast v1.0.0</p>
+        <p className="font-serif text-[14px] text-[var(--color-text)]">Kron v1.0.0</p>
         <p className="font-serif text-[12px] text-[var(--color-text-secondary)]">Made by Five</p>
       </section>
     </PageContainer>

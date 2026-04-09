@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ============================================
-   DESIGN SYSTEM — ReadFast
+   DESIGN SYSTEM — Kron
    Black, white, red (#E03E3E). Nothing else.
    ============================================ */
 
@@ -120,6 +120,19 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove tap highlight on all interactive elements (mobile) */
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent text selection on interactive elements */
+button, a, [role="button"] {
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 body {

@@ -5,6 +5,7 @@ import { calculateDisplayDuration } from '@/engine/rsvp';
 import { updatePosition, updateDocument, getDocument } from '@/db/documents';
 import { createSession } from '@/db/sessions';
 import { AUTOSAVE_INTERVAL_MS } from '@/utils/constants';
+import { hapticLight, hapticMedium, hapticTick } from '@/utils/native';
 
 export function usePlayer() {
   const store = usePlayerStore();
@@ -159,8 +160,45 @@ export function usePlayer() {
     }
   }, [store.documentId, settings]);
 
+  // Wrap actions with haptic feedback
+  const togglePlayPause = useCallback(() => {
+    hapticLight();
+    store.togglePlayPause();
+  }, [store]);
+
+  const rewindSentence = useCallback(() => {
+    hapticMedium();
+    store.rewindSentence();
+  }, [store]);
+
+  const rewindParagraph = useCallback(() => {
+    hapticMedium();
+    store.rewindParagraph();
+  }, [store]);
+
+  const skipSentence = useCallback(() => {
+    hapticMedium();
+    store.skipSentence();
+  }, [store]);
+
+  const skipParagraph = useCallback(() => {
+    hapticMedium();
+    store.skipParagraph();
+  }, [store]);
+
+  const adjustWpm = useCallback((delta: number) => {
+    hapticTick();
+    store.adjustWpm(delta);
+  }, [store]);
+
   return {
     ...store,
+    togglePlayPause,
+    rewindSentence,
+    rewindParagraph,
+    skipSentence,
+    skipParagraph,
+    adjustWpm,
     currentWord: store.wordArray[store.currentIndex] ?? null,
     progress: store.totalWords > 0 ? store.currentIndex / (store.totalWords - 1) : 0,
     savePosition,

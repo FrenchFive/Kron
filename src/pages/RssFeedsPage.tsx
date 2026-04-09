@@ -13,6 +13,7 @@ import { createDocument } from '@/db/documents';
 import { generateId } from '@/utils/id';
 import { useSettingsStore } from '@/store/settingsStore';
 import { relativeTime } from '@/utils/time';
+import { hideKeyboard } from '@/utils/native';
 
 export function RssFeedsPage() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export function RssFeedsPage() {
 
   const handleAddFeed = async () => {
     if (!feedUrl.trim()) return;
+    hideKeyboard();
     setLoading(true);
     setError(null);
     try {

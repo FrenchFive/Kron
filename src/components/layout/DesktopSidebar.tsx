@@ -13,7 +13,7 @@ export function DesktopSidebar() {
       {/* Logo */}
       <div className="px-3 mb-8">
         <span className="font-display font-extrabold text-[20px] uppercase tracking-[0.08em] text-[var(--color-accent)]">
-          READFAST
+          KRON
         </span>
       </div>
 

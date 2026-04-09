@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { IconButton } from './IconButton';
+import { onBackButton } from '@/utils/native';
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,6 +21,12 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
+
+  // Close modal on Android back button
+  useEffect(() => {
+    if (!isOpen) return;
+    return onBackButton(onClose);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
