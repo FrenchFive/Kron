@@ -4,7 +4,6 @@ import { ArrowLeft } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { IconButton } from '@/components/ui/IconButton';
 import { Button } from '@/components/ui/Button';
-import { Divider } from '@/components/ui/Divider';
 import { useSettingsStore } from '@/store/settingsStore';
 import { db } from '@/db/database';
 import { MIN_WPM, MAX_WPM, MIN_FONT_SIZE, MAX_FONT_SIZE } from '@/utils/constants';
