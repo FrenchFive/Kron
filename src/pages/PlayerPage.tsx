@@ -238,6 +238,8 @@ export function PlayerPage() {
           backgroundColor: 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
         }}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
       >
         <div className="mx-auto flex max-w-[720px] items-center justify-between px-4 py-2">
           <IconButton label="Back" onClick={handleBack}>
@@ -266,6 +268,8 @@ export function PlayerPage() {
           backgroundColor: 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
         }}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
       >
         <div className="mx-auto max-w-[720px] px-4 pb-2">
           {/* Position and time */}
@@ -282,10 +286,8 @@ export function PlayerPage() {
             <PlayerControls
               isPlaying={player.isPlaying}
               onTogglePlay={() => player.togglePlayPause()}
-              onRewindSentence={() => player.rewindSentence()}
-              onRewindParagraph={() => player.rewindParagraph()}
-              onSkipSentence={() => player.skipSentence()}
-              onSkipParagraph={() => player.skipParagraph()}
+              onBack20={() => player.skipWords(-20)}
+              onForward20={() => player.skipWords(20)}
             />
           </div>
 

@@ -6,6 +6,7 @@ import {
   DEFAULT_COMMA_MULTIPLIER,
   DEFAULT_PARAGRAPH_MULTIPLIER,
 } from '@/utils/constants';
+import { syncStatusBarWithTheme } from '@/utils/native';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -55,9 +56,14 @@ export const useSettingsStore = create<SettingsState>((set) => ({
     // Apply theme class
     const html = document.documentElement;
     html.classList.remove('dark');
-    if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (isDark) {
       html.classList.add('dark');
     }
+    // Sync system bar color with app background
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', isDark ? '#111111' : '#FFFFFF');
+    syncStatusBarWithTheme();
     set({ theme });
   },
 

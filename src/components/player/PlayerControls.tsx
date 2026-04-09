@@ -3,34 +3,25 @@ import {
   Pause,
   ChevronLeft,
   ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
 } from 'lucide-react';
 import { IconButton } from '@/components/ui/IconButton';
 
 interface PlayerControlsProps {
   isPlaying: boolean;
   onTogglePlay: () => void;
-  onRewindSentence: () => void;
-  onRewindParagraph: () => void;
-  onSkipSentence: () => void;
-  onSkipParagraph: () => void;
+  onBack20: () => void;
+  onForward20: () => void;
 }
 
 export function PlayerControls({
   isPlaying,
   onTogglePlay,
-  onRewindSentence,
-  onRewindParagraph,
-  onSkipSentence,
-  onSkipParagraph,
+  onBack20,
+  onForward20,
 }: PlayerControlsProps) {
   return (
-    <div className="flex items-center justify-center gap-2">
-      <IconButton label="Rewind paragraph" onClick={onRewindParagraph} className="h-12 w-12">
-        <ChevronsLeft size={22} strokeWidth={1.5} />
-      </IconButton>
-      <IconButton label="Rewind sentence" onClick={onRewindSentence} className="h-12 w-12">
+    <div className="flex items-center justify-center gap-4">
+      <IconButton label="Back 20 words" onClick={onBack20} className="h-12 w-12">
         <ChevronLeft size={22} strokeWidth={1.5} />
       </IconButton>
       <IconButton
@@ -44,11 +35,8 @@ export function PlayerControls({
           <Play size={28} strokeWidth={1.5} />
         )}
       </IconButton>
-      <IconButton label="Skip sentence" onClick={onSkipSentence} className="h-12 w-12">
+      <IconButton label="Forward 20 words" onClick={onForward20} className="h-12 w-12">
         <ChevronRight size={22} strokeWidth={1.5} />
-      </IconButton>
-      <IconButton label="Skip paragraph" onClick={onSkipParagraph} className="h-12 w-12">
-        <ChevronsRight size={22} strokeWidth={1.5} />
       </IconButton>
     </div>
   );

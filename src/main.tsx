@@ -15,6 +15,7 @@ const ImportUrlPage = lazy(() => import('./pages/ImportUrlPage').then(m => ({ de
 const RssFeedsPage = lazy(() => import('./pages/RssFeedsPage').then(m => ({ default: m.RssFeedsPage })));
 const ImportPage = lazy(() => import('./pages/ImportPage').then(m => ({ default: m.ImportPage })));
 const DocumentPage = lazy(() => import('./pages/DocumentPage').then(m => ({ default: m.DocumentPage })));
+const EditContentPage = lazy(() => import('./pages/EditContentPage').then(m => ({ default: m.EditContentPage })));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -58,6 +59,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="/import/url" element={<ImportUrlPage />} />
               <Route path="/rss" element={<RssFeedsPage />} />
               <Route path="/document/:id" element={<DocumentPage />} />
+              <Route path="/edit/:id" element={<EditContentPage />} />
             </Route>
           </Routes>
         </Suspense>
