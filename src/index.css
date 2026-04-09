@@ -14,21 +14,22 @@
   src: url('/fonts/sora-800.woff2') format('woff2');
 }
 
-/* Tiempos Text — user provides these files in public/fonts/ */
-@font-face {
-  font-family: 'Tiempos Text';
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  src: url('/fonts/tiempos-text-400.woff2') format('woff2');
-}
-
+/* Tiempos Text — Semi Bold (600→mapped to 500) and Bold (700)
+   Regular body text (400) falls through to Lora. */
 @font-face {
   font-family: 'Tiempos Text';
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/tiempos-text-500.woff2') format('woff2');
+  src: url('/fonts/tiempos-text-semibold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Tiempos Text';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/tiempos-text-semibold.woff2') format('woff2');
 }
 
 @font-face {
@@ -36,10 +37,19 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/tiempos-text-700.woff2') format('woff2');
+  src: url('/fonts/tiempos-text-bold.woff2') format('woff2');
 }
 
-/* Lora fallback — loaded from self-hosted files */
+/* Lora stands in for Tiempos Text at weight 400 (body text).
+   Registered under both family names so font-family fallback works naturally. */
+@font-face {
+  font-family: 'Tiempos Text';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/lora-400.woff2') format('woff2');
+}
+
 @font-face {
   font-family: 'Lora';
   font-weight: 400;

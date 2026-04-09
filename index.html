@@ -9,18 +9,21 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="manifest" href="/manifest.json" />
     <title>ReadFast</title>
+    <script>
+      // Initialize theme before body renders to prevent flash
+      (function() {
+        try {
+          var raw = localStorage.getItem('readfast-theme');
+          var theme = raw ? JSON.parse(raw) : 'system';
+          if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch(e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // Initialize theme before React hydrates to prevent flash
-      (function() {
-        const theme = localStorage.getItem('readfast-theme') || 'system';
-        if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        }
-      })();
-    </script>
   </body>
 </html>
