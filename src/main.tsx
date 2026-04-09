@@ -22,6 +22,15 @@ const queryClient = new QueryClient({
   },
 });
 
+// Register service worker for PWA (web only, not inside Capacitor)
+if ('serviceWorker' in navigator && !('Capacitor' in window)) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // SW registration failed — offline caching won't work, but app still functions
+    });
+  });
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>

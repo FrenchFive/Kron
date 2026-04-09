@@ -2,7 +2,8 @@ import { useEffect, useRef, useCallback } from 'react';
 import { usePlayerStore } from '@/store/playerStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { calculateDisplayDuration } from '@/engine/rsvp';
-import { updatePosition } from '@/db/documents';
+import { updatePosition, updateDocument, getDocument } from '@/db/documents';
+import { createSession } from '@/db/sessions';
 import { AUTOSAVE_INTERVAL_MS } from '@/utils/constants';
 
 export function usePlayer() {
@@ -12,10 +13,49 @@ export function usePlayer() {
   const lastTickRef = useRef<number>(0);
   const accumulatorRef = useRef<number>(0);
 
+  // Session tracking
+  const sessionStartRef = useRef<{ time: number; position: number } | null>(null);
+
   const savePosition = useCallback(async () => {
     const { documentId, currentIndex, wpm } = usePlayerStore.getState();
     if (documentId) {
       await updatePosition(documentId, currentIndex, wpm);
+    }
+  }, []);
+
+  const endSession = useCallback(async () => {
+    const sessionStart = sessionStartRef.current;
+    if (!sessionStart) return;
+    sessionStartRef.current = null;
+
+    const { documentId, currentIndex, wpm } = usePlayerStore.getState();
+    if (!documentId) return;
+
+    const now = Date.now();
+    const durationMs = now - sessionStart.time;
+    const wordsRead = currentIndex - sessionStart.position;
+
+    // Only save sessions that lasted > 1 second and read > 0 words
+    if (durationMs > 1000 && wordsRead > 0) {
+      const avgWpm = Math.round((wordsRead / durationMs) * 60_000);
+
+      await createSession({
+        documentId,
+        startedAt: new Date(sessionStart.time).toISOString(),
+        endedAt: new Date(now).toISOString(),
+        startPosition: sessionStart.position,
+        endPosition: currentIndex,
+        avgWpm: avgWpm > 0 ? avgWpm : wpm,
+        durationMs,
+      });
+
+      // Update total reading time on the document
+      const currentDoc = await getDocument(documentId);
+      if (currentDoc) {
+        await updateDocument(documentId, {
+          totalTimeMs: currentDoc.totalTimeMs + durationMs,
+        });
+      }
     }
   }, []);
 
@@ -24,6 +64,12 @@ export function usePlayer() {
     if (!store.isPlaying || store.totalWords === 0) {
       return;
     }
+
+    // Start a new session
+    sessionStartRef.current = {
+      time: Date.now(),
+      position: usePlayerStore.getState().currentIndex,
+    };
 
     lastTickRef.current = performance.now();
     accumulatorRef.current = 0;
@@ -62,12 +108,13 @@ export function usePlayer() {
     };
   }, [store.isPlaying, store.totalWords]);
 
-  // Auto-save on pause
+  // End session and save on pause
   useEffect(() => {
     if (!store.isPlaying && store.documentId) {
+      endSession();
       savePosition();
     }
-  }, [store.isPlaying, store.documentId, savePosition]);
+  }, [store.isPlaying, store.documentId, endSession, savePosition]);
 
   // Auto-save interval during playback
   useEffect(() => {
@@ -85,22 +132,18 @@ export function usePlayer() {
     const handleVisibility = () => {
       if (document.hidden) {
         usePlayerStore.getState().pause();
-        savePosition();
       }
     };
 
     document.addEventListener('visibilitychange', handleVisibility);
     return () => document.removeEventListener('visibilitychange', handleVisibility);
-  }, [savePosition]);
+  }, []);
 
   // Save on beforeunload
   useEffect(() => {
     const handleUnload = () => {
       const { documentId, currentIndex, wpm } = usePlayerStore.getState();
       if (documentId) {
-        // Use synchronous-ish approach for beforeunload
-        navigator.sendBeacon?.('/noop', JSON.stringify({ documentId, currentIndex, wpm }));
-        // Also attempt direct save (may not complete)
         updatePosition(documentId, currentIndex, wpm);
       }
     };
