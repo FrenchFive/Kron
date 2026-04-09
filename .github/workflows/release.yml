@@ -111,6 +111,16 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
+      # ── Patch signing config so release APK is installable ──
+      - name: Add release signing fallback
+        working-directory: android/app
+        run: |
+          # Add debug signing fallback to release buildType (matches GroceryRecipe/PonderHub pattern)
+          sed -i '/buildTypes {/,/release {/ {
+            /release {/ a\
+                signingConfig signingConfigs.debug
+          }' build.gradle
+
       # ── Inject version into Android build ──
       - name: Set Android version
         working-directory: android/app
