@@ -16,6 +16,37 @@ const DEFAULT_PAUSE_SETTINGS: PauseSettings = {
 // Split text after sentence-ending punctuation followed by whitespace and a capital letter
 const SENTENCE_SPLIT_RE = /(?<=[.!?])\s+(?=[A-Z])/;
 
+/**
+ * Split a whitespace-delimited token at compound boundaries so each
+ * fragment is displayed as its own word in the RSVP reader.
+ *
+ * Handles:  :  -  /  —  –  and French-style apostrophe contractions
+ *   "self-aware"  → ["self-", "aware"]
+ *   "key:value"   → ["key:", "value"]
+ *   "l'homme"     → ["l'", "homme"]
+ *   "don't"       → ["don't"]          (English contraction, kept whole)
+ */
+function splitCompoundToken(token: string): string[] {
+  // Step 1: split after : - / — – when followed by a letter
+  const parts = token.split(/(?<=[:\/\-\u2014\u2013])(?=[a-zA-Z\u00C0-\u024F])/);
+
+  // Step 2: handle apostrophe / right-quote for French-style contractions
+  // Split only when prefix is 1-2 letter chars and suffix is 3+ letter chars
+  const result: string[] = [];
+  for (const part of parts) {
+    const m = part.match(
+      /^([a-zA-Z\u00C0-\u024F]{1,2}['\u2019])([a-zA-Z\u00C0-\u024F]{3,}.*)$/
+    );
+    if (m) {
+      result.push(m[1], m[2]);
+    } else {
+      result.push(part);
+    }
+  }
+
+  return result.filter(p => p.length > 0);
+}
+
 function inferTitle(text: string): string {
   const firstLine = text.trim().split('\n')[0]?.trim() ?? '';
   if (firstLine.length > 0 && firstLine.length < 60 && !firstLine.includes('.')) {
@@ -62,7 +93,10 @@ export function parseText(
       if (sentenceText.length === 0) continue;
 
       const sentenceStartIndex = globalIndex;
-      const wordTexts = sentenceText.split(/\s+/).filter(w => w.length > 0);
+      const wordTexts = sentenceText
+        .split(/\s+/)
+        .filter(w => w.length > 0)
+        .flatMap(splitCompoundToken);
       const words: Word[] = [];
 
       for (let wi = 0; wi < wordTexts.length; wi++) {

@@ -44,7 +44,7 @@ export function WordDisplay({ word, landscape }: WordDisplayProps) {
       */}
       <div
         key={word.index}
-        className="w-full font-serif font-bold tracking-[0.01em] word-enter"
+        className="w-full font-serif font-bold tracking-[0.01em]"
         style={{
           fontSize: `${clampedFontSize}px`,
           display: 'grid',

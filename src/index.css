@@ -330,23 +330,6 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
 }
 
-/* ── Word entrance animation ─────────────────────────────── */
-
-@keyframes word-enter {
-  from {
-    opacity: 0.4;
-    transform: translateY(2px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.word-enter {
-  animation: word-enter 80ms ease-out both;
-}
-
 /* ── ORP letter highlight ────────────────────────────────── */
 
 .orp-letter {
