@@ -29,8 +29,15 @@ export function hideStatusBar() {
 export function showStatusBar() {
   if (isNative) {
     StatusBar.show();
-    StatusBar.setStyle({ style: Style.Dark });
+    syncStatusBarWithTheme();
   }
+}
+
+export function syncStatusBarWithTheme() {
+  if (!isNative) return;
+  const isDark = document.documentElement.classList.contains('dark');
+  StatusBar.setStyle({ style: isDark ? Style.Dark : Style.Light });
+  StatusBar.setBackgroundColor({ color: isDark ? '#111111' : '#FFFFFF' });
 }
 
 // ── Keyboard ─────────────────────────────────────────────
