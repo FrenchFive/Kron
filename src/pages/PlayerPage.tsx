@@ -243,7 +243,7 @@ export function PlayerPage() {
           <IconButton label="Back" onClick={handleBack}>
             <ArrowLeft size={20} strokeWidth={1.5} />
           </IconButton>
-          <span className="max-w-[220px] truncate font-serif text-[15px] font-medium text-[var(--color-text)]">
+          <span className="max-w-[220px] truncate font-serif text-[15px] font-semibold text-[var(--color-text)]">
             {docTitle}
           </span>
           <IconButton label="Bookmark" onClick={handleToggleBookmark}>

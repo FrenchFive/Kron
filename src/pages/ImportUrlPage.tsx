@@ -87,14 +87,14 @@ export function ImportUrlPage() {
           <ArrowLeft size={20} strokeWidth={1.5} />
         </IconButton>
         <div>
-          <span className="page-kicker mb-2">single article import</span>
-          <h1 className="page-title">import from url</h1>
+          <span className="page-kicker mb-2">Single Article Import</span>
+          <h1 className="page-title">Import From URL</h1>
         </div>
       </div>
 
       <section className="surface-card mb-5 p-5">
         <p className="page-subtitle mb-4 max-w-[30ch]">
-          Paste a clean article link and KRON will extract the readable text for you.
+          Paste a clean article link and Kron will extract the readable text for you.
         </p>
         <div className="relative mb-4">
           <input

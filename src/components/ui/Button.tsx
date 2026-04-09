@@ -8,7 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({ variant = 'primary', children, className = '', ...props }: ButtonProps) {
-  const base = 'inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-5 py-3 font-serif text-[15px] font-medium transition-colors duration-150 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed';
+  const base = 'inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-5 py-3 font-serif text-[15px] font-semibold transition-colors duration-150 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed';
 
   const variants: Record<Variant, string> = {
     primary: 'border border-[var(--color-accent)] bg-transparent text-[var(--color-accent)] hover:bg-[var(--color-accent-subtle)] active:bg-[var(--color-accent-subtle)]',

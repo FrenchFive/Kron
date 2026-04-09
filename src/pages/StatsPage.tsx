@@ -76,10 +76,10 @@ export function StatsPage() {
   return (
     <PageContainer withTabBar>
       <header className="mb-8">
-        <span className="page-kicker mb-3">reading profile</span>
+        <span className="page-kicker mb-3">Reading Profile</span>
         <div className="flex items-end justify-between gap-4">
           <div>
-            <h1 className="page-title">stats</h1>
+            <h1 className="page-title">Stats</h1>
             <p className="page-subtitle mt-3 max-w-[28ch]">
               A quiet snapshot of your pace, streak, and time spent reading.
             </p>
@@ -96,10 +96,10 @@ export function StatsPage() {
       {!stats ? (
         <div className="empty-state surface-card-flat">
           <h2>
-            no stats yet
+            No Stats Yet
           </h2>
           <p>
-            start reading to see your progress
+            Start reading to see your progress.
           </p>
         </div>
       ) : (
@@ -107,8 +107,8 @@ export function StatsPage() {
           {/* Today */}
           <section className="surface-card p-6">
             <div className="mb-5 text-center">
-              <p className="page-kicker mb-3">today</p>
-              <p className="font-display text-[40px] font-extrabold text-[var(--color-accent)]">
+              <p className="page-kicker mb-3">Today</p>
+              <p className="font-display text-[40px] font-bold text-[var(--color-accent)]">
                 {formatNumber(stats.today.words)}
               </p>
               <p className="meta-text mt-2">words today</p>
@@ -124,9 +124,9 @@ export function StatsPage() {
           <section className="surface-card-flat p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
               <div>
-                <p className="page-kicker mb-2">streak</p>
+                <p className="page-kicker mb-2">Streak</p>
                 <div className="flex items-end gap-3">
-                  <span className="font-display text-[40px] font-extrabold leading-none text-[var(--color-accent)]">{stats.streak}</span>
+                  <span className="font-display text-[40px] font-bold leading-none text-[var(--color-accent)]">{stats.streak}</span>
                   <span className="pb-1 font-serif text-[15px] text-[var(--color-text)]">day streak</span>
                 </div>
               </div>
@@ -146,7 +146,7 @@ export function StatsPage() {
 
           {/* All time */}
           <section className="surface-card-flat p-6">
-            <h2 className="section-heading mb-4">all time</h2>
+            <h2 className="section-heading mb-4">All Time</h2>
             <div className="space-y-1">
               <StatRow label="Total words read" value={formatNumber(stats.allTime.totalWords)} />
               <StatRow label="Total reading time" value={formatDurationLong(stats.allTime.totalTimeMs)} />
@@ -165,7 +165,7 @@ export function StatsPage() {
 function MiniStat({ value, label }: { value: string; label: string }) {
   return (
     <div className="rounded-[16px] border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-4 text-center">
-      <p className="font-serif text-[15px] font-medium text-[var(--color-text)]">{value}</p>
+      <p className="font-serif text-[15px] font-semibold text-[var(--color-text)]">{value}</p>
       <p className="tiny-meta mt-1">{label}</p>
     </div>
   );
@@ -175,7 +175,7 @@ function StatRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-4 border-b border-[var(--color-border)] py-3 last:border-b-0 last:pb-0">
       <span className="font-serif text-[15px] text-[var(--color-text)]">{label}</span>
-      <span className="font-serif text-[15px] font-medium text-[var(--color-text)] text-right">{value}</span>
+      <span className="font-serif text-[15px] font-semibold text-[var(--color-text)] text-right">{value}</span>
     </div>
   );
 }

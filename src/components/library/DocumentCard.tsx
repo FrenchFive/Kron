@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
-import { FileText, Book, FileType, Globe, Rss, File } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { FileText, Book, FileType, Globe, Rss, File, MoreVertical } from 'lucide-react';
 import type { DocumentRecord } from '@/db/database';
-import { deleteDocument } from '@/db/documents';
+import { deleteDocument, updateDocument } from '@/db/documents';
 import { relativeTime, estimateReadingTimeMinutes, formatNumber } from '@/utils/time';
 
 const sourceIcons: Record<string, typeof FileText> = {
@@ -23,52 +23,81 @@ interface DocumentCardProps {
 
 export function DocumentCard({ doc }: DocumentCardProps) {
   const navigate = useNavigate();
-  const [showDelete, setShowDelete] = useState(false);
-  const touchStartX = useRef<number>(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const Icon = sourceIcons[doc.sourceType] ?? File;
   const progress = doc.wordCount > 0 ? Math.round((doc.currentPosition / doc.wordCount) * 100) : 0;
   const wordsLeft = doc.wordCount - doc.currentPosition;
   const timeLeft = estimateReadingTimeMinutes(wordsLeft, doc.wpmLastUsed || 300);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [menuOpen]);
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (dx < -80) {
-      setShowDelete(true);
-    } else if (dx > 40) {
-      setShowDelete(false);
-    }
+  const handleRestart = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    await updateDocument(doc.id, { currentPosition: 0 });
+    setMenuOpen(false);
   };
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
     await deleteDocument(doc.id);
+    setMenuOpen(false);
   };
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative">
       <div
-        className="surface-card relative cursor-pointer p-4 transition-transform duration-150"
-        style={{ transform: showDelete ? 'translateX(-80px)' : 'translateX(0)' }}
+        className="surface-card relative cursor-pointer p-4"
         onClick={() => navigate(`/player/${doc.id}`)}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
       >
         <div className="mb-4 flex items-start justify-between gap-3">
           <span className="info-badge">
             <Icon size={12} strokeWidth={1.7} />
             {doc.sourceType}
           </span>
-          <span className="tiny-meta">last read {relativeTime(doc.updatedAt)}</span>
+          <div className="flex items-center gap-2">
+            <span className="tiny-meta">Last read {relativeTime(doc.updatedAt)}</span>
+            <div ref={menuRef} className="relative">
+              <button
+                className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]"
+                onClick={(e) => { e.stopPropagation(); setMenuOpen(!menuOpen); }}
+              >
+                <MoreVertical size={16} strokeWidth={1.5} />
+              </button>
+              {menuOpen && (
+                <div className="absolute right-0 top-full z-50 mt-1 min-w-[180px] overflow-hidden rounded-[14px] border border-[var(--color-border)] bg-[var(--color-bg)] shadow-lg">
+                  <button
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left font-serif text-[14px] font-semibold text-[var(--color-text)] transition-colors hover:bg-[var(--color-surface)]"
+                    onClick={handleRestart}
+                  >
+                    Restart Progress
+                  </button>
+                  <div className="border-t border-[var(--color-border)]" />
+                  <button
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left font-serif text-[14px] font-semibold text-[var(--color-danger)] transition-colors hover:bg-[var(--color-accent-subtle)]"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="flex items-start gap-3">
           <div className="flex-1 min-w-0">
-            <h3 className="truncate font-serif text-[17px] font-medium text-[var(--color-text)]">
+            <h3 className="truncate font-serif text-[17px] font-semibold text-[var(--color-text)]">
               {doc.title}
             </h3>
             <p className="meta-text mt-1">
@@ -87,15 +116,6 @@ export function DocumentCard({ doc }: DocumentCardProps) {
           </div>
         </div>
       </div>
-      {/* Delete button revealed on swipe */}
-      {showDelete && (
-        <button
-          className="absolute right-0 top-0 bottom-0 w-[80px] bg-transparent flex items-center justify-center cursor-pointer border-none"
-          onClick={handleDelete}
-        >
-          <span className="font-serif text-[14px] text-[var(--color-danger)] font-medium">delete</span>
-        </button>
-      )}
     </div>
   );
 }

@@ -25,8 +25,8 @@ export function DocumentPage() {
     return (
       <PageContainer>
         <div className="surface-card empty-state">
-          <h2>document not found</h2>
-          <p>this entry may have been deleted or moved out of your library.</p>
+          <h2>Document Not Found</h2>
+          <p>This entry may have been deleted or moved out of your library.</p>
         </div>
       </PageContainer>
     );
@@ -62,7 +62,7 @@ export function DocumentPage() {
           <ArrowLeft size={20} strokeWidth={1.5} />
         </IconButton>
         <div className="min-w-0">
-          <span className="page-kicker mb-3">document</span>
+          <span className="page-kicker mb-3">Document</span>
           <h1 className="page-title truncate">{doc.title}</h1>
         </div>
       </header>
@@ -85,8 +85,8 @@ export function DocumentPage() {
       <section className="surface-card-flat mb-5 p-5">
         <div className="mb-3 flex items-end justify-between gap-4">
           <div>
-            <p className="page-kicker mb-2">progress</p>
-            <p className="font-display text-[32px] font-extrabold leading-none text-[var(--color-accent)]">{progress}%</p>
+            <p className="page-kicker mb-2">Progress</p>
+            <p className="font-display text-[32px] font-bold leading-none text-[var(--color-accent)]">{progress}%</p>
           </div>
           <div className="text-right">
             <p className="meta-text">{formatNumber(wordsLeft)} words left</p>
@@ -112,7 +112,7 @@ export function DocumentPage() {
       {/* Chapters */}
       {ws && ws.chapters.length > 1 && (
         <section className="surface-card-flat mb-5 p-5">
-          <h2 className="section-heading mb-4">chapters</h2>
+          <h2 className="section-heading mb-4">Chapters</h2>
           <div>
             {ws.chapters.map((chapter, i) => {
               const nextStart = ws!.chapters[i + 1]?.startIndex ?? ws!.totalWords;
@@ -127,7 +127,7 @@ export function DocumentPage() {
                   }}
                 >
                   <div className="flex-1">
-                    <span className="block font-serif text-[15px] font-medium text-[var(--color-text)]">{chapter.title}</span>
+                    <span className="block font-serif text-[15px] font-semibold text-[var(--color-text)]">{chapter.title}</span>
                     <span className="tiny-meta">{formatNumber(chapterWords)} words</span>
                   </div>
                 </button>
@@ -140,7 +140,7 @@ export function DocumentPage() {
       {/* Bookmarks */}
       {bookmarks.length > 0 && (
         <section className="surface-card-flat mb-5 p-5">
-          <h2 className="section-heading mb-4">bookmarks</h2>
+          <h2 className="section-heading mb-4">Bookmarks</h2>
           <div>
             {bookmarks.map(bm => (
               <div
@@ -154,7 +154,7 @@ export function DocumentPage() {
                     navigate(`/player/${doc.id}`);
                   }}
                 >
-                  <span className="block font-serif text-[15px] font-medium text-[var(--color-text)]">
+                  <span className="block font-serif text-[15px] font-semibold text-[var(--color-text)]">
                     {bm.label || `Bookmark at word ${formatNumber(bm.position)}`}
                   </span>
                   <span className="tiny-meta">jump back into this spot</span>
@@ -170,7 +170,7 @@ export function DocumentPage() {
 
       {/* Danger zone */}
       <section className="surface-card-flat p-5">
-        <p className="page-kicker mb-3">danger zone</p>
+        <p className="page-kicker mb-3">Danger Zone</p>
         <Button variant="danger" onClick={handleDelete}>
           Delete document
         </Button>

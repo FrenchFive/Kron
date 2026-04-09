@@ -1,6 +1,8 @@
 import { useState, useMemo } from 'react';
-import { Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Import } from 'lucide-react';
 import { PageContainer } from '@/components/layout/PageContainer';
+import { IconButton } from '@/components/ui/IconButton';
 import { DocumentCard } from '@/components/library/DocumentCard';
 import { EmptyLibrary } from '@/components/library/EmptyLibrary';
 import { useAllDocuments } from '@/hooks/useDocuments';
@@ -8,6 +10,7 @@ import { useAllDocuments } from '@/hooks/useDocuments';
 type SortMode = 'recent' | 'a-z' | 'progress';
 
 export function LibraryPage() {
+  const navigate = useNavigate();
   const documents = useAllDocuments();
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortMode>('recent');
@@ -36,31 +39,36 @@ export function LibraryPage() {
   }, [documents, search, sort]);
 
   const sortOptions: { key: SortMode; label: string }[] = [
-    { key: 'recent', label: 'recent' },
-    { key: 'a-z', label: 'a-z' },
-    { key: 'progress', label: 'progress' },
+    { key: 'recent', label: 'Recent' },
+    { key: 'a-z', label: 'A-Z' },
+    { key: 'progress', label: 'Progress' },
   ];
 
   return (
     <PageContainer withTabBar>
       <header className="mb-7">
-        <span className="page-kicker mb-3">collection</span>
+        <span className="page-kicker mb-3">Collection</span>
         <div className="flex items-end justify-between gap-3">
-          <h1 className="page-title">library</h1>
+          <h1 className="page-title">Library</h1>
           <span className="tiny-meta">{documents.length} docs</span>
         </div>
       </header>
 
-      {/* Search */}
-      <div className="relative mb-5">
-        <Search size={16} strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" />
-        <input
-          type="text"
-          placeholder="search documents..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="soft-input pl-11 pr-4"
-        />
+      {/* Search + Import */}
+      <div className="mb-5 flex items-center gap-3">
+        <div className="relative flex-1">
+          <Search size={16} strokeWidth={1.5} className="pointer-events-none absolute left-4 top-1/2 z-10 -translate-y-1/2 text-[var(--color-text-secondary)]" />
+          <input
+            type="text"
+            placeholder="Search documents..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="soft-input pl-11 pr-4"
+          />
+        </div>
+        <IconButton label="Import" onClick={() => navigate('/import')}>
+          <Import size={20} strokeWidth={1.5} />
+        </IconButton>
       </div>
 
       {/* Sort */}

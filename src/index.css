@@ -1,9 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&family=Sora:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@700;800&display=swap');
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'Tiempos';
+  src: url('/fonts/tiempos-text-semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tiempos';
+  src: url('/fonts/tiempos-text-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @theme {
   --font-display: 'Sora', sans-serif;
-  --font-serif: 'Lora', serif;
+  --font-serif: 'Tiempos', Georgia, serif;
 
   --color-bg: #FFFFFF;
   --color-surface: #F7F7F5;
@@ -65,8 +81,8 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: 'Lora', serif;
-  font-weight: 400;
+  font-family: 'Tiempos', Georgia, serif;
+  font-weight: 600;
   font-size: 15px;
   line-height: 1.55;
   letter-spacing: -0.01em;
@@ -134,9 +150,9 @@ textarea::placeholder {
 
 .page-kicker {
   display: inline-block;
-  font-family: 'Lora', serif;
+  font-family: 'Tiempos', Georgia, serif;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -146,21 +162,19 @@ textarea::placeholder {
 .page-title {
   font-family: 'Sora', sans-serif;
   font-size: 26px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
-  text-transform: lowercase;
   color: var(--color-text);
 }
 
 .page-logo {
   font-family: 'Sora', sans-serif;
   font-size: 32px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-accent);
+  letter-spacing: -0.02em;
+  color: var(--color-text);
 }
 
 .page-subtitle {
@@ -170,8 +184,9 @@ textarea::placeholder {
 }
 
 .section-heading {
+  font-family: 'Sora', sans-serif;
   font-size: 17px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.35;
   color: var(--color-text);
 }
@@ -273,10 +288,9 @@ textarea::placeholder {
   margin: 0 0 10px;
   font-family: 'Sora', sans-serif;
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.04em;
-  text-transform: lowercase;
   color: var(--color-text);
 }
 

@@ -25,7 +25,7 @@ export function FileUploadButton() {
         <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-secondary)]">
           <FileUp size={18} strokeWidth={1.5} />
         </div>
-        <span className="flex-1 font-serif text-[15px] font-medium text-[var(--color-text)]">
+        <span className="flex-1 font-serif text-[15px] font-semibold text-[var(--color-text)]">
           {loading ? 'Importing...' : 'Upload file'}
         </span>
         <ChevronRight size={16} strokeWidth={1.5} className="text-[var(--color-text-secondary)]" />
