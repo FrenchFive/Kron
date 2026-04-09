@@ -12,10 +12,10 @@ export function PageContainer({ children, className = '', withTabBar = false }: 
     <div
       className={`w-full max-w-[680px] mx-auto px-5 md:px-6 ${className}`}
       style={{
-        paddingTop: 'calc(24px + env(safe-area-inset-top, 0px))',
+        paddingTop: 'calc(28px + env(safe-area-inset-top, 0px))',
         paddingBottom: withTabBar
-          ? 'calc(80px + env(safe-area-inset-bottom, 0px))'
-          : 'calc(24px + env(safe-area-inset-bottom, 0px))',
+          ? 'calc(92px + env(safe-area-inset-bottom, 0px))'
+          : 'calc(32px + env(safe-area-inset-bottom, 0px))',
       }}
     >
       {children}

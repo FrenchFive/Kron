@@ -9,25 +9,25 @@ const navItems = [
 
 export function DesktopSidebar() {
   return (
-    <aside className="hidden lg:flex flex-col w-[200px] h-screen fixed left-0 top-0 border-r border-[var(--color-border)] bg-[var(--color-bg)] py-6 px-3">
+    <aside className="hidden lg:flex flex-col w-[220px] h-screen fixed left-0 top-0 border-r border-[var(--color-border)] bg-[var(--color-bg)] py-8 px-4">
       {/* Logo */}
-      <div className="px-3 mb-8">
-        <span className="font-display font-extrabold text-[20px] uppercase tracking-[0.08em] text-[var(--color-accent)]">
+      <div className="px-3 mb-10">
+        <span className="font-display font-extrabold text-[24px] uppercase tracking-[0.08em] text-[var(--color-accent)]">
           KRON
         </span>
       </div>
 
       {/* Nav items */}
-      <nav className="flex flex-col gap-1 flex-1">
+      <nav className="flex flex-col gap-2 flex-1">
         {navItems.map(({ to, icon: Icon, label }) => (
           <NavLink
             key={to}
             to={to}
             end={to === '/'}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-3 rounded-[4px] no-underline font-serif text-[15px] transition-colors duration-150 ${
+              `flex items-center gap-3 px-4 py-3 rounded-[18px] no-underline font-serif text-[15px] transition-colors duration-150 ${
                 isActive
-                  ? 'bg-[var(--color-surface)] font-semibold text-[var(--color-text)]'
+                  ? 'bg-[var(--color-surface)] font-medium text-[var(--color-text)]'
                   : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'
               }`
             }
@@ -39,13 +39,13 @@ export function DesktopSidebar() {
       </nav>
 
       {/* Settings at bottom */}
-      <div className="border-t border-[var(--color-border)] pt-3 mt-3">
+      <div className="border-t border-[var(--color-border)] pt-4 mt-4">
         <NavLink
           to="/settings"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-3 rounded-[4px] no-underline font-serif text-[15px] transition-colors duration-150 ${
+            `flex items-center gap-3 px-4 py-3 rounded-[18px] no-underline font-serif text-[15px] transition-colors duration-150 ${
               isActive
-                ? 'bg-[var(--color-surface)] font-semibold text-[var(--color-text)]'
+                ? 'bg-[var(--color-surface)] font-medium text-[var(--color-text)]'
                 : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface)]'
             }`
           }

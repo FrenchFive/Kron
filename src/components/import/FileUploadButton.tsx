@@ -18,18 +18,20 @@ export function FileUploadButton() {
   return (
     <>
       <button
-        className="w-full flex items-center gap-4 py-4 border-b border-[var(--color-border)] bg-transparent cursor-pointer text-left"
+        className="list-row w-full cursor-pointer bg-transparent text-left"
         onClick={() => inputRef.current?.click()}
         disabled={loading}
       >
-        <FileUp size={20} strokeWidth={1.5} className="text-[var(--color-text-secondary)] shrink-0" />
-        <span className="font-serif text-[15px] text-[var(--color-text)] flex-1">
+        <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg)] text-[var(--color-text-secondary)]">
+          <FileUp size={18} strokeWidth={1.5} />
+        </div>
+        <span className="flex-1 font-serif text-[15px] font-medium text-[var(--color-text)]">
           {loading ? 'Importing...' : 'Upload file'}
         </span>
         <ChevronRight size={16} strokeWidth={1.5} className="text-[var(--color-text-secondary)]" />
       </button>
       {error && (
-        <p className="py-2 font-serif text-[13px] text-[var(--color-text)]">{error}</p>
+        <p className="py-3 font-serif text-[13px] text-[var(--color-text)]">{error}</p>
       )}
       <input
         ref={inputRef}

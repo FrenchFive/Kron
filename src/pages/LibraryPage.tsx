@@ -43,32 +43,36 @@ export function LibraryPage() {
 
   return (
     <PageContainer withTabBar>
-      <h1 className="font-display font-extrabold text-[26px] lowercase text-[var(--color-text)] mb-6">
-        library
-      </h1>
+      <header className="mb-7">
+        <span className="page-kicker mb-3">collection</span>
+        <div className="flex items-end justify-between gap-3">
+          <h1 className="page-title">library</h1>
+          <span className="tiny-meta">{documents.length} docs</span>
+        </div>
+      </header>
 
       {/* Search */}
-      <div className="relative mb-4">
-        <Search size={16} strokeWidth={1.5} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" />
+      <div className="relative mb-5">
+        <Search size={16} strokeWidth={1.5} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)]" />
         <input
           type="text"
           placeholder="search documents..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[4px] font-serif text-[15px] text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] placeholder:text-[var(--color-text-secondary)]"
+          className="soft-input pl-11 pr-4"
         />
       </div>
 
       {/* Sort */}
-      <div className="flex gap-3 mb-4">
+      <div className="mb-6 flex flex-wrap gap-2">
         {sortOptions.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => setSort(key)}
-            className={`font-serif text-[13px] bg-transparent border-none cursor-pointer transition-colors duration-150 ${
+            className={`chip-toggle ${
               sort === key
-                ? 'font-bold text-[var(--color-text)]'
-                : 'font-normal text-[var(--color-text-secondary)] hover:text-[var(--color-text)]'
+                ? 'is-active'
+                : ''
             }`}
           >
             {label}

@@ -190,8 +190,8 @@ export function PlayerPage() {
 
   if (loading) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center bg-[var(--color-bg)]">
-        <span className="font-serif text-[var(--color-text-secondary)]">Loading...</span>
+      <div className="flex h-screen w-screen items-center justify-center bg-[var(--color-bg)]">
+        <span className="font-serif text-[15px] text-[var(--color-text-secondary)]">Loading...</span>
       </div>
     );
   }
@@ -203,19 +203,19 @@ export function PlayerPage() {
 
   return (
     <div
-      className="h-screen w-screen bg-[var(--color-bg)] relative select-none overflow-hidden"
+      className="relative h-screen w-screen overflow-hidden bg-[var(--color-bg)] select-none"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onTouchMove={handleTouchMove}
       onClick={handleTap}
     >
       {/* Word display area */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="w-full px-4" style={{ height: '60px' }}>
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
+        <div className="w-full max-w-[720px]" style={{ height: '72px' }}>
           <WordDisplay word={player.currentWord} />
         </div>
         {hasMultipleChapters && chapter && (
-          <p className="font-serif text-[12px] text-[var(--color-text-secondary)] mt-4">
+          <p className="tiny-meta mt-5">
             {chapter.title}
           </p>
         )}
@@ -223,27 +223,27 @@ export function PlayerPage() {
 
       {/* Context preview overlay */}
       {showContext && !player.isPlaying && (
-        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+        <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
           <ContextPreview words={player.wordArray} currentIndex={player.currentIndex} />
         </div>
       )}
 
       {/* Top bar */}
       <div
-        className="fixed top-0 left-0 right-0 z-30 transition-opacity duration-150"
+        className="fixed left-0 right-0 top-0 z-30 transition-opacity duration-150"
         style={{
           opacity: showControls ? 1 : 0,
           pointerEvents: showControls ? 'auto' : 'none',
-          paddingTop: 'calc(8px + env(safe-area-inset-top, 0px))',
-          backgroundColor: 'color-mix(in srgb, var(--color-bg) 95%, transparent)',
+          paddingTop: 'calc(12px + env(safe-area-inset-top, 0px))',
+          backgroundColor: 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 py-2">
+        <div className="mx-auto flex max-w-[720px] items-center justify-between px-4 py-2">
           <IconButton label="Back" onClick={handleBack}>
             <ArrowLeft size={20} strokeWidth={1.5} />
           </IconButton>
-          <span className="font-serif text-[14px] text-[var(--color-text)] truncate max-w-[200px]">
+          <span className="max-w-[220px] truncate font-serif text-[15px] font-medium text-[var(--color-text)]">
             {docTitle}
           </span>
           <IconButton label="Bookmark" onClick={handleToggleBookmark}>
@@ -262,14 +262,14 @@ export function PlayerPage() {
         style={{
           opacity: showControls ? 1 : 0,
           pointerEvents: showControls ? 'auto' : 'none',
-          paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
-          backgroundColor: 'color-mix(in srgb, var(--color-bg) 95%, transparent)',
+          paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+          backgroundColor: 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-4 pb-2">
+        <div className="mx-auto max-w-[720px] px-4 pb-2">
           {/* Position and time */}
-          <div className="flex justify-between text-[12px] font-serif text-[var(--color-text-secondary)] mb-1">
+          <div className="mb-2 flex justify-between font-serif text-[13px] text-[var(--color-text-secondary)]">
             <span>word {formatNumber(player.currentIndex + 1)} / {formatNumber(player.totalWords)}</span>
             <span>{formatDuration(timeLeftMs)} left</span>
           </div>
@@ -278,7 +278,7 @@ export function PlayerPage() {
           <ProgressBar progress={player.progress} onSeek={handleSeek} />
 
           {/* Player controls */}
-          <div className="mt-3">
+          <div className="mt-4">
             <PlayerControls
               isPlaying={player.isPlaying}
               onTogglePlay={() => player.togglePlayPause()}
@@ -290,7 +290,7 @@ export function PlayerPage() {
           </div>
 
           {/* Speed control */}
-          <div className="mt-2">
+          <div className="mt-3 flex justify-center">
             <SpeedIndicator wpm={player.wpm} onAdjust={(d) => player.adjustWpm(d)} />
           </div>
         </div>

@@ -35,18 +35,21 @@ export function SettingsPage() {
 
   return (
     <PageContainer>
-      <div className="flex items-center gap-3 mb-6">
+      <div className="mb-8 flex items-start gap-3">
         <IconButton label="Back" onClick={() => navigate(-1)}>
           <ArrowLeft size={20} strokeWidth={1.5} />
         </IconButton>
-        <h1 className="font-display font-extrabold text-[26px] lowercase text-[var(--color-text)]">
-          settings
-        </h1>
+        <div className="pt-1">
+          <span className="page-kicker mb-3">preferences</span>
+          <h1 className="page-title">settings</h1>
+          <p className="page-subtitle mt-3 max-w-[30ch]">
+            Tune reading speed, typography, and the pacing of each session.
+          </p>
+        </div>
       </div>
 
-      {/* Reading Section */}
-      <section className="mb-6">
-        <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-4">reading</h2>
+      <section className="surface-card p-5 mb-5">
+        <h2 className="section-heading mb-4">reading</h2>
 
         <SettingRow label="Default WPM" value={`${settings.defaultWpm}`}>
           <input
@@ -68,8 +71,7 @@ export function SettingsPage() {
             value={settings.fontSize}
             onChange={(e) => settings.setFontSize(Number(e.target.value))}
           />
-          {/* Live preview */}
-          <div className="mt-2 flex justify-center">
+          <div className="mt-3 flex justify-center rounded-[16px] border border-[var(--color-border)] bg-[var(--color-bg)] px-4 py-4">
             <span
               className="font-serif font-bold text-[var(--color-text)]"
               style={{ fontSize: `${settings.fontSize}px` }}
@@ -113,23 +115,23 @@ export function SettingsPage() {
         </SettingRow>
       </section>
 
-      <Divider className="mb-6" />
+      <section className="surface-card-flat p-5 mb-5">
+        <h2 className="section-heading mb-4">appearance</h2>
 
-      {/* Appearance Section */}
-      <section className="mb-6">
-        <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-4">appearance</h2>
-
-        <div className="flex items-center justify-between py-4 border-b border-[var(--color-border)]">
-          <span className="font-serif text-[15px] text-[var(--color-text)]">Theme</span>
-          <div className="flex gap-1 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[4px] overflow-hidden">
+        <div className="border-b border-[var(--color-border)] py-4">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <span className="font-serif text-[15px] text-[var(--color-text)]">Theme</span>
+            <span className="tiny-meta">light / dark / system</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
             {(['light', 'dark', 'system'] as const).map(t => (
               <button
                 key={t}
                 onClick={() => settings.setTheme(t)}
-                className={`px-3 py-1.5 font-serif text-[13px] border-none cursor-pointer transition-colors duration-150 ${
+                className={`chip-toggle ${
                   settings.theme === t
-                    ? 'bg-[var(--color-bg)] text-[var(--color-text)] font-medium'
-                    : 'bg-transparent text-[var(--color-text-secondary)]'
+                    ? 'is-active'
+                    : ''
                 }`}
               >
                 {t}
@@ -139,31 +141,25 @@ export function SettingsPage() {
         </div>
       </section>
 
-      <Divider className="mb-6" />
-
-      {/* Data Section */}
-      <section className="mb-6">
-        <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-4">data</h2>
-
-        <div className="flex items-center justify-between py-4 border-b border-[var(--color-border)]">
+      <section className="surface-card-flat p-5 mb-5">
+        <h2 className="section-heading mb-4">data</h2>
+        <div className="flex items-center justify-between gap-4 border-b border-[var(--color-border)] py-4">
           <span className="font-serif text-[15px] text-[var(--color-text)]">Storage used</span>
-          <span className="font-serif text-[13px] text-[var(--color-text-secondary)]">{storageSize}</span>
+          <span className="meta-text text-right">{storageSize}</span>
         </div>
-
-        <div className="py-4">
+        <div className="pt-4">
           <Button variant="danger" onClick={handleClearAll}>
             Clear all data
           </Button>
         </div>
       </section>
 
-      <Divider className="mb-6" />
-
-      {/* About Section */}
-      <section>
-        <h2 className="font-serif font-medium text-[16px] text-[var(--color-text-secondary)] mb-4">about</h2>
-        <p className="font-serif text-[14px] text-[var(--color-text)]">Kron v1.0.0</p>
-        <p className="font-serif text-[12px] text-[var(--color-text-secondary)]">Made by Five</p>
+      <section className="surface-card-flat p-5">
+        <h2 className="section-heading mb-4">about</h2>
+        <div className="space-y-1">
+          <p className="font-serif text-[15px] text-[var(--color-text)]">Kron v1.0.0</p>
+          <p className="meta-text">Made by Five</p>
+        </div>
       </section>
     </PageContainer>
   );
@@ -171,10 +167,10 @@ export function SettingsPage() {
 
 function SettingRow({ label, value, children }: { label: string; value: string; children: React.ReactNode }) {
   return (
-    <div className="py-4 border-b border-[var(--color-border)]">
-      <div className="flex items-center justify-between mb-2">
+    <div className="border-b border-[var(--color-border)] py-4 last:border-b-0 last:pb-0">
+      <div className="mb-3 flex items-center justify-between gap-3">
         <span className="font-serif text-[15px] text-[var(--color-text)]">{label}</span>
-        <span className="font-serif text-[13px] text-[var(--color-text-secondary)]">{value}</span>
+        <span className="meta-text">{value}</span>
       </div>
       {children}
     </div>

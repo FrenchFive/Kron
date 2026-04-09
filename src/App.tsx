@@ -24,7 +24,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)]">
       {showNav && <DesktopSidebar />}
-      <main className={showNav ? 'lg:ml-[200px]' : ''}>
+      <main className={showNav ? 'lg:ml-[220px]' : ''}>
         <Outlet />
       </main>
       {showNav && <BottomTabBar />}

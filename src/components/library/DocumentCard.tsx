@@ -52,31 +52,38 @@ export function DocumentCard({ doc }: DocumentCardProps) {
   return (
     <div className="relative overflow-hidden">
       <div
-        className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[4px] p-4 cursor-pointer transition-transform duration-150"
+        className="surface-card relative cursor-pointer p-4 transition-transform duration-150"
         style={{ transform: showDelete ? 'translateX(-80px)' : 'translateX(0)' }}
         onClick={() => navigate(`/player/${doc.id}`)}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
+        <div className="mb-4 flex items-start justify-between gap-3">
+          <span className="info-badge">
+            <Icon size={12} strokeWidth={1.7} />
+            {doc.sourceType}
+          </span>
+          <span className="tiny-meta">last read {relativeTime(doc.updatedAt)}</span>
+        </div>
+
         <div className="flex items-start gap-3">
-          <Icon size={16} strokeWidth={1.5} className="text-[var(--color-text-secondary)] mt-0.5 shrink-0" />
           <div className="flex-1 min-w-0">
-            <h3 className="font-serif font-medium text-[16px] text-[var(--color-text)] truncate">
+            <h3 className="truncate font-serif text-[17px] font-medium text-[var(--color-text)]">
               {doc.title}
             </h3>
-            <p className="font-serif text-[12px] text-[var(--color-text-secondary)] mt-0.5">
-              {progress}% &middot; {formatNumber(doc.wordCount)} words &middot; {timeLeft} min
+            <p className="meta-text mt-1">
+              {formatNumber(doc.wordCount)} words &middot; {timeLeft} min left
             </p>
-            {/* Progress bar */}
-            <div className="mt-2 w-full h-[3px] rounded-[2px] bg-[var(--color-progress-track)]">
+            <div className="mt-4 w-full h-[4px] rounded-full bg-[var(--color-progress-track)]">
               <div
-                className="h-full rounded-[2px] bg-[var(--color-accent)]"
+                className="h-full rounded-full bg-[var(--color-accent)]"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="font-serif text-[12px] text-[var(--color-text-secondary)] mt-1.5">
-              Last read {relativeTime(doc.updatedAt)}
-            </p>
+            <div className="mt-3 flex items-center justify-between gap-3">
+              <p className="tiny-meta">{progress}% complete</p>
+              <p className="tiny-meta">{formatNumber(wordsLeft)} words left</p>
+            </div>
           </div>
         </div>
       </div>

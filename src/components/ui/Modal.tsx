@@ -38,14 +38,15 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     <div className="fixed inset-0 z-50 flex justify-end">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/30"
+        className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"
         onClick={onClose}
       />
       {/* Panel — slides in from right */}
       <div
-        className="relative flex h-full w-full max-w-[480px] flex-col overflow-hidden bg-[var(--color-bg)] animate-slide-in"
+        className="relative flex h-full w-full max-w-[480px] flex-col overflow-hidden border-l border-[var(--color-border)] bg-[var(--color-bg)] animate-slide-in"
         style={{
           animation: 'slideIn 200ms ease-out',
+          boxShadow: 'var(--shadow-panel)',
         }}
       >
         {title && (
@@ -54,7 +55,9 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
             style={{ paddingTop: headerPaddingTop }}
           >
             <div className="flex items-center justify-between px-5 py-4">
-              <h2 className="font-serif font-medium text-[17px] text-[var(--color-text)]">{title}</h2>
+              <h2 className="font-display text-[24px] font-extrabold lowercase tracking-[-0.04em] text-[var(--color-text)]">
+                {title}
+              </h2>
               <IconButton label="Close" onClick={onClose}>
                 <X size={20} strokeWidth={1.5} />
               </IconButton>
