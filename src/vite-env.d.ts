@@ -7,28 +7,6 @@ declare module '@mozilla/readability' {
   }
 }
 
-declare module 'rss-parser' {
-  interface Item {
-    title?: string;
-    link?: string;
-    content?: string;
-    contentSnippet?: string;
-    pubDate?: string;
-    isoDate?: string;
-  }
-  interface Feed {
-    title?: string;
-    description?: string;
-    link?: string;
-    items: Item[];
-  }
-  class Parser {
-    parseURL(url: string): Promise<Feed>;
-    parseString(xml: string): Promise<Feed>;
-  }
-  export = Parser;
-}
-
 declare module 'mammoth' {
   export function extractRawText(options: { arrayBuffer: ArrayBuffer }): Promise<{ value: string }>;
 }

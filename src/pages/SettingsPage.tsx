@@ -11,18 +11,19 @@ import { MIN_WPM, MAX_WPM, MIN_FONT_SIZE, MAX_FONT_SIZE } from '@/utils/constant
 export function SettingsPage() {
   const navigate = useNavigate();
   const settings = useSettingsStore();
-  const [storageSize, setStorageSize] = useState<string>('Calculating...');
+  const canEstimateStorage = typeof navigator.storage?.estimate === 'function';
+  const [storageSize, setStorageSize] = useState<string>(
+    canEstimateStorage ? 'Calculating...' : 'Unknown',
+  );
 
   useEffect(() => {
-    if (navigator.storage?.estimate) {
+    if (canEstimateStorage) {
       navigator.storage.estimate().then(est => {
         const usedMB = ((est.usage ?? 0) / 1024 / 1024).toFixed(1);
         setStorageSize(`Using ${usedMB} MB`);
       });
-    } else {
-      setStorageSize('Unknown');
     }
-  }, []);
+  }, [canEstimateStorage]);
 
   const handleClearAll = async () => {
     if (window.confirm('This will delete all your documents, bookmarks, and stats. This cannot be undone.')) {
